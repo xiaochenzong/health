@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/llBackup"
+        android:id="@+id/llLeftBack"
+        style="@style/action_ll">
+        <ImageView
+            style="@style/base"
+            android:src="@drawable/leftback"/>
+        <TextView
+            style="@style/action_tv"
+            android:text="左侧翻"/>
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintLeft_toRightOf="@id/llLeftBack"
+        app:layout_constraintRight_toLeftOf="@id/llLegup"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/llBackup"
+        style="@style/action_ll">
+        <ImageView
+            style="@style/base"
+            android:src="@drawable/backup"/>
+        <TextView
+            style="@style/action_tv"
+            android:text="左侧翻"/>
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@id/llBackup"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/llLegup"
+        style="@style/action_ll">
+        <ImageView
+            style="@style/base"
+            android:src="@drawable/legup"/>
+        <TextView
+            style="@style/action_tv"
+            android:text="左侧翻"/>
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/llLeftBack"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/llBackup"
+        android:id="@+id/llRightBack"
+        style="@style/action_ll">
+        <ImageView
+            style="@style/base"
+            android:src="@drawable/rightback"/>
+        <TextView
+            style="@style/action_tv"
+            android:text="左侧翻"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
