@@ -1,64 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/llLeftBack"
+        style="@style/action_ll"
         android:layout_marginLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/llBackup"
-        android:id="@+id/llLeftBack"
-        style="@style/action_ll">
+        app:layout_constraintRight_toLeftOf="@id/llBackup">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/leftback"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintLeft_toRightOf="@id/llLeftBack"
-        app:layout_constraintRight_toLeftOf="@id/llLegup"
-        android:layout_marginLeft="10dp"
         android:id="@+id/llBackup"
-        style="@style/action_ll">
+        style="@style/action_ll"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@id/llLeftBack"
+        app:layout_constraintRight_toLeftOf="@id/llLegup">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/backup"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="20dp"
+        android:id="@+id/llLegup"
+        style="@style/action_ll"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
         app:layout_constraintLeft_toRightOf="@id/llBackup"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/llLegup"
-        style="@style/action_ll">
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/legup"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/llLeftBack"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintRight_toLeftOf="@id/llBackDown"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/llRightBack"
-        style="@style/action">
+        style="@style/action"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/llBackDown"
+        app:layout_constraintTop_toBottomOf="@id/llLeftBack">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/rightback"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
@@ -66,109 +74,122 @@
 
 
     <LinearLayout
+        android:id="@+id/llBackDown"
+        style="@style/action"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/llLeftBack"
         app:layout_constraintLeft_toRightOf="@id/llRightBack"
         app:layout_constraintRight_toLeftOf="@id/llLegDown"
-        android:id="@+id/llBackDown"
-        style="@style/action">
+        app:layout_constraintTop_toBottomOf="@id/llLeftBack">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/backdown"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llLegDown"
+        style="@style/action"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="20dp"
-        app:layout_constraintTop_toBottomOf="@id/llLeftBack"
         app:layout_constraintLeft_toRightOf="@id/llBackDown"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/llLegDown"
-        style="@style/action">
+        app:layout_constraintTop_toBottomOf="@id/llLeftBack">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/legdown"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/llLegDown"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintRight_toLeftOf="@id/llReset"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/llWash"
-        style="@style/action">
+        style="@style/action"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/llReset"
+        app:layout_constraintTop_toBottomOf="@id/llLegDown">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/wash"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llReset"
+        style="@style/action"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/llLegDown"
         app:layout_constraintLeft_toRightOf="@id/llWash"
         app:layout_constraintRight_toLeftOf="@id/llLegDown"
-        android:id="@+id/llReset"
-        style="@style/action">
+        app:layout_constraintTop_toBottomOf="@id/llLegDown">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/reset"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        app:layout_constraintTop_toBottomOf="@id/llReset"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintRight_toLeftOf="@id/llReset"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/llBackMassage"
-        style="@style/action">
+        style="@style/action"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/llReset"
+        app:layout_constraintTop_toBottomOf="@id/llReset">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/backmassage"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llLegMassage"
+        style="@style/action"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/llReset"
         app:layout_constraintLeft_toRightOf="@id/llBackMassage"
         app:layout_constraintRight_toLeftOf="@id/llLegDown"
-        android:id="@+id/llLegMassage"
-        style="@style/action">
+        app:layout_constraintTop_toBottomOf="@id/llReset">
+
         <ImageView
             style="@style/base"
             android:src="@drawable/legmassage"/>
+
         <TextView
             style="@style/action_tv"
             android:text="左侧翻"/>
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background=""
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/llLegMassage"
-        app:layout_constraintTop_toBottomOf="@id/llLegDown"
         app:layout_constraintLeft_toRightOf="@id/llLegMassage"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="@id/llReset">
+
         <ImageView
-            android:src="@drawable/stop"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:src="@drawable/stop"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
