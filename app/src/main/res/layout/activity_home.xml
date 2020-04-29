@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,43 +13,73 @@
         android:background="#fff"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/frameLayout"
-        >
+        app:layout_constraintRight_toLeftOf="@id/frameLayout">
 
         <ImageView
             style="@style/letfIv"
             android:layout_marginTop="40dp"
-            android:src="@drawable/logo"
-            />
+            android:src="@drawable/logo" />
 
         <LinearLayout
             style="@style/llmenu"
             android:layout_marginTop="150dp">
 
-            <ImageView
-                android:id="@+id/ivMenu"
+            <LinearLayout
                 style="@style/letfIv"
-                android:src="@drawable/menu"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivMenu"
+                    style="@style/letfIv"
+                    android:src="@drawable/menu" />
+
+                <TextView
+                    style="@style/tvTime1"
+                    android:text="护理操作" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             style="@style/llmenu"
             android:layout_marginTop="260dp">
 
-            <ImageView
-                android:id="@+id/ivShopping"
+            <LinearLayout
                 style="@style/letfIv"
-                android:src="@drawable/shopping"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivShopping"
+                    style="@style/letfIv"
+                    android:src="@drawable/shopping" />
+
+                <TextView
+                    style="@style/tvTime1"
+                    android:text="购买产品" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             style="@style/llmenu"
             android:layout_marginTop="380dp">
 
-            <ImageView
-                android:id="@+id/ivContact"
+            <LinearLayout
                 style="@style/letfIv"
-                android:src="@drawable/contact"/>
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivContact"
+                    style="@style/letfIv"
+                    android:src="@drawable/contact" />
+
+                <TextView
+                    style="@style/tvTime1"
+                    android:text="联系我们" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
@@ -61,74 +90,219 @@
         android:layout_height="match_parent"
         android:background="#FFF7E5"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintHorizontal_weight="6"
         app:layout_constraintLeft_toRightOf="@id/rlLeft"
         app:layout_constraintRight_toLeftOf="@id/llRight"
-        >
-    </FrameLayout>
+        tools:layout_editor_absoluteY="0dp"></FrameLayout>
 
     <LinearLayout
         android:id="@+id/llRight"
         android:layout_width="0dp"
-        android:padding="20dp"
         android:layout_height="match_parent"
         android:background="#FFD278"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_weight="2"
+        android:padding="20dp"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintLeft_toRightOf="@id/frameLayout"
-        app:layout_constraintRight_toRightOf="parent"
-        >
+        app:layout_constraintRight_toRightOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
             <android.support.constraint.ConstraintLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:background="@drawable/bg_write"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_write">
+
+                <ImageView
+                    android:id="@+id/ivHeart"
+                    style="@style/topleft"
+                    android:src="@drawable/heartbeat"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    style="@style/tvHeat"
+                    android:text="心率"
+                    app:layout_constraintBottom_toBottomOf="@id/ivHeart"
+                    app:layout_constraintLeft_toRightOf="@id/ivHeart" />
+
+                <TextView
+                    android:id="@+id/tvBmp"
+                    style="@style/tvBmp"
+                    android:text="bmp"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    style="@style/tvHeat"
+                    android:layout_marginRight="4dp"
+                    android:text="90"
+                    android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvBmp"
+                    app:layout_constraintRight_toLeftOf="@id/tvBmp" />
+
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:layout_width="0dp"
-                android:background="@drawable/bg_write"
-                android:layout_height="match_parent">
+                android:background="@drawable/bg_write">
+
+                <ImageView
+                    android:id="@+id/ivTemp"
+                    style="@style/topleft"
+                    android:src="@drawable/temp"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    style="@style/tvHeat"
+                    android:text="体温"
+                    app:layout_constraintBottom_toBottomOf="@id/ivTemp"
+                    app:layout_constraintLeft_toRightOf="@id/ivTemp" />
+
+                <TextView
+                    android:id="@+id/tvHeat"
+                    style="@style/tvHeat"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="36.5"
+                    android:textSize="26sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvd"
+                    style="@style/tvHeat"
+                    android:layout_marginBottom="12dp"
+                    android:text="º"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvHeat"
+                    app:layout_constraintLeft_toRightOf="@id/tvHeat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvHeat"
+                    app:layout_constraintLeft_toRightOf="@id/tvd" />
+
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
             android:layout_weight="2"
-            android:background="@drawable/bg_write"
-            android:layout_height="0dp">
+            android:background="@drawable/bg_write">
+
+            <ImageView
+                android:id="@+id/ivBp"
+                style="@style/topleft"
+                android:src="@drawable/bp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvHeat"
+                android:text="血压"
+                app:layout_constraintBottom_toBottomOf="@id/ivBp"
+                app:layout_constraintLeft_toRightOf="@id/ivBp" />
+
+            <TextView
+                android:id="@+id/tvTime"
+                style="@style/tvTime2"
+                android:text="18:00"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/tvTime2"
+                android:text="4月30日"
+                app:layout_constraintRight_toLeftOf="@id/tvTime"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                style="@style/tvTime2"
+                android:layout_marginTop="0dp"
+                android:text="测量更新"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTime" />
+
+
+            <TextView
+                android:id="@+id/tvMmh"
+                style="@style/tvBmp"
+                android:layout_marginRight="50dp"
+                android:text="mmHg"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvHeat"
+                android:layout_marginRight="4dp"
+                android:text="130/90"
+                android:textSize="26sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvMmh"
+                app:layout_constraintRight_toLeftOf="@id/tvMmh" />
 
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="3"
-            android:background="@drawable/bg_write"
-            android:layout_height="0dp">
+            android:background="@drawable/bg_write">
+
+            <ImageView
+                android:id="@+id/ivHeartIV"
+                style="@style/topleft"
+                android:src="@drawable/heart"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvHeat"
+                android:text="心电图"
+                app:layout_constraintBottom_toBottomOf="@id/ivHeartIV"
+                app:layout_constraintLeft_toRightOf="@id/ivHeartIV" />
 
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="4"
             android:background="@drawable/bg_write"
-            android:layout_height="0dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/ivVoiceCall"
+                style="@style/topleft"
+                android:src="@drawable/videocall_def"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvHeat"
+                android:text="视频电话"
+                app:layout_constraintBottom_toBottomOf="@id/ivVoiceCall"
+                app:layout_constraintLeft_toRightOf="@id/ivVoiceCall" />
 
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="2"
-            android:background="@drawable/bg_write"
-            android:layout_height="0dp">
+            android:background="@drawable/bg_write">
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
@@ -137,13 +311,13 @@
     <LinearLayout
         android:id="@+id/llMenu1"
         style="@style/llmenu_right"
-        android:layout_marginTop="150dp">
+        android:layout_marginTop="150dp"
+        tools:ignore="MissingConstraints">
 
         <ImageView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pageiconleft"/>
+            android:src="@drawable/pageiconleft" />
     </LinearLayout>
 
 
@@ -151,13 +325,14 @@
         android:id="@+id/llShopping1"
         style="@style/llmenu_right"
         android:layout_marginTop="260dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
 
         <ImageView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pageiconleft"/>
+            android:src="@drawable/pageiconleft" />
     </LinearLayout>
 
 
@@ -165,12 +340,13 @@
         android:id="@+id/llContact1"
         style="@style/llmenu_right"
         android:layout_marginTop="380dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pageiconleft"/>
+            android:src="@drawable/pageiconleft" />
     </LinearLayout>
 
 

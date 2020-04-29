@@ -26,6 +26,25 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="tvBmp" parent="tvHeat">
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+
+    <style name="tvHeat" parent="base">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="topleft" parent="base">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+    </style>
+
     <style name="llmenu">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">130dp</item>
@@ -33,13 +52,14 @@
     </style>
 
     <style name="llmenu_right" parent="llmenu">
-        <item name="android:layout_marginLeft">90dp</item>
+        <item name="android:layout_marginLeft">50dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
 
     <style name="letfIv" parent="base">
         <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="action">
@@ -53,9 +73,9 @@
     </style>
 
     <style name="bgaction">
-        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
@@ -68,6 +88,11 @@
     <style name="tvTime1" parent="base">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#AFAFAF</item>
+    </style>
+
+    <style name="tvTime2" parent="tvTime1">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
 
 
@@ -85,7 +110,7 @@
     </style>
 
     <style name="action_tv" parent="base">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">#000</item>
         <item name="android:layout_marginLeft">10dp</item>
     </style>
