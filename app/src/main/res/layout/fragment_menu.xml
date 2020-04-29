@@ -3,188 +3,365 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
+    android:layout_height="match_parent"
+    android:background="#FFF7E5">
+
     <LinearLayout
-            android:orientation="vertical"
-            app:layout_constraintVertical_weight="1"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+        android:id="@+id/llAction"
+        style="@style/bgaction"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/clBed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="4"
+        >
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
-
-            <LinearLayout
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <LinearLayout
-                        android:id="@+id/llLeftBack"
-                        style="@style/llaction">
+                    android:id="@+id/llLeftBack"
+                    style="@style/llaction">
+
                     <ImageView
-                            style="@style/base"
-                            android:src="@drawable/leftback"/>
+                        style="@style/base"
+                        android:src="@drawable/leftback"/>
+
                     <TextView
-                            style="@style/action_tv"
-                            android:text="左侧翻"/>
+                        style="@style/action_tv"
+                        android:text="左侧翻"/>
                 </LinearLayout>
 
                 <LinearLayout
-                        android:id="@+id/llRightBack"
-                        style="@style/llaction">
+                    android:id="@+id/llRightBack"
+                    style="@style/llaction">
+
                     <ImageView
-                            style="@style/base"
-                            android:src="@drawable/rightback"/>
+                        style="@style/base"
+                        android:src="@drawable/rightback"/>
+
                     <TextView
-                            style="@style/action_tv"
-                            android:text="左侧翻"/>
+                        style="@style/action_tv"
+                        android:text="右侧翻"/>
                 </LinearLayout>
 
                 <LinearLayout
-                        android:id="@+id/llWash"
-                        style="@style/llaction">
+                    android:id="@+id/llWash"
+                    style="@style/llaction">
+
                     <ImageView
-                            style="@style/base"
-                            android:src="@drawable/wash"/>
+                        style="@style/base"
+                        android:src="@drawable/wash"/>
+
                     <TextView
-                            style="@style/action_tv"
-                            android:text="左侧翻"/>
+                        style="@style/action_tv"
+                        android:text="手动冲洗"/>
                 </LinearLayout>
 
                 <LinearLayout
-                        android:id="@+id/llBackMassage"
-                        style="@style/llaction">
+                    android:id="@+id/llBackMassage"
+                    style="@style/llaction">
+
                     <ImageView
-                            style="@style/base"
-                            android:src="@drawable/backmassage"/>
+                        style="@style/base"
+                        android:src="@drawable/backmassage"/>
+
                     <TextView
-                            style="@style/action_tv"
-                            android:text="左侧翻"/>
+                        style="@style/action_tv"
+                        android:text="背部按摩"/>
                 </LinearLayout>
 
             </LinearLayout>
 
 
             <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <LinearLayout
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/llBackup"
-                        style="@style/llaction">
+                    android:id="@+id/llBackup"
+                    style="@style/llaction"
+                    android:layout_marginLeft="10dp">
+
                     <ImageView
-                            style="@style/base"
-                            android:src="@drawable/backup"/>
+                        style="@style/base"
+                        android:src="@drawable/backup"/>
+
                     <TextView
-                            style="@style/action_tv"
-                            android:text="左侧翻"/>
+                        style="@style/action_tv"
+                        android:text="起背"/>
                 </LinearLayout>
 
-                    <LinearLayout
-                            android:layout_marginLeft="10dp"
-                            android:id="@+id/llBackDown"
-                            style="@style/llaction">
-                        <ImageView
-                                style="@style/base"
-                                android:src="@drawable/backdown"/>
-                        <TextView
-                                style="@style/action_tv"
-                                android:text="左侧翻"/>
-                    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/llBackDown"
+                    style="@style/llaction"
+                    android:layout_marginLeft="10dp">
 
-                    <LinearLayout
-                            android:layout_marginLeft="10dp"
-                            android:id="@+id/llReset"
-                            style="@style/llaction"
-                            android:layout_marginTop="20dp">
-                        <ImageView
-                                style="@style/base"
-                                android:src="@drawable/reset"/>
-                        <TextView
-                                style="@style/action_tv"
-                                android:text="左侧翻"/>
-                    </LinearLayout>
+                    <ImageView
+                        style="@style/base"
+                        android:src="@drawable/backdown"/>
 
-                    <LinearLayout
-                            android:layout_marginLeft="10dp"
-                            android:id="@+id/llLegMassage"
-                            style="@style/llaction">
-                        <ImageView
-                                style="@style/base"
-                                android:src="@drawable/legmassage"/>
-                        <TextView
-                                style="@style/action_tv"
-                                android:text="左侧翻"/>
-                    </LinearLayout>
+                    <TextView
+                        style="@style/action_tv"
+                        android:text="平背"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llReset"
+                    style="@style/llaction"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        style="@style/base"
+                        android:src="@drawable/reset"/>
+
+                    <TextView
+                        style="@style/action_tv"
+                        android:text="复位"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llLegMassage"
+                    style="@style/llaction"
+                    android:layout_marginLeft="10dp">
+
+                    <ImageView
+                        style="@style/base"
+                        android:src="@drawable/legmassage"/>
+
+                    <TextView
+                        style="@style/action_tv"
+                        android:text="腿部按摩"/>
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <LinearLayout
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_height="0dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                            android:layout_marginTop="0dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginLeft="10dp"
                         android:id="@+id/llLegup"
-                        style="@style/llaction">
-                    <ImageView
+
+                        style="@style/llaction"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp">
+
+                        <ImageView
                             style="@style/base"
                             android:src="@drawable/legup"/>
-                    <TextView
+
+                        <TextView
                             style="@style/action_tv"
-                            android:text="左侧翻"/>
-                </LinearLayout>
+                            android:text="抬腿"/>
+                    </LinearLayout>
 
                     <LinearLayout
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="20dp"
-                            android:id="@+id/llLegDown"
-                            style="@style/llaction">
+                        android:id="@+id/llLegDown"
+                        style="@style/llaction"
+                        android:layout_marginLeft="10dp">
+
                         <ImageView
-                                style="@style/base"
-                                android:src="@drawable/legdown"/>
+                            style="@style/base"
+                            android:src="@drawable/legdown"/>
+
                         <TextView
-                                style="@style/action_tv"
-                                android:text="左侧翻"/>
+                            style="@style/action_tv"
+                            android:text="平腿"/>
                     </LinearLayout>
 
                 </LinearLayout>
 
-               <LinearLayout
-                       android:layout_marginRight="20dp"
-                       android:layout_marginLeft="10dp"
-                       style="@style/llaction">
-                   <ImageView
-                           android:src="@drawable/stop"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
-               </LinearLayout>
+                <LinearLayout
+                    style="@style/llaction"
+                    android:layout_marginLeft="10dp">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/stop"/>
+
+                        <TextView
+                            style="@style/action_tv"
+                            android:layout_marginLeft="0dp"
+                            android:text="紧急停止"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clBed"
+        style="@style/bgaction"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_write"
+        app:layout_constraintBottom_toTopOf="@id/clPrompt"
+        app:layout_constraintTop_toBottomOf="@id/llAction"
+        app:layout_constraintVertical_weight="3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="正视图"
+                android:textColor="@color/bed_view_select"
+                android:textSize="20sp"/>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#000">
+
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="侧视图"
+                android:textColor="@color/bed_view_select"
+                android:textSize="20sp"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/llvoice"
+            android:gravity="center_vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:clickable="true"
+                android:text="智能语音"
+                android:textColor="@color/bed_view_select"
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/ivVoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/voiceon"/>
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clPrompt"
+        style="@style/bgaction"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_write"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clBed"
+        app:layout_constraintVertical_weight="2">
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/tvTime"
+                android:text="设备租用中"/>
+            <TextView
+                style="@style/tvTime"
+                android:layout_marginLeft="30dp"
+                android:text="00:10:01"/>
+        </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/tvTime1"
+                    android:text="租用套餐时长:"/>
+                <TextView
+                    android:id="@+id/tvTime"
+                    style="@style/tvTime1"
+                    android:layout_marginLeft="20dp"
+                    android:text="2小时"/>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#000"></View>
+                <TextView
+                    style="@style/tvTime1"
+                    android:text="剩余时长:"/>
+                <TextView
+                    android:id="@+id/tvTimeResidue"
+                    style="@style/tvTime1"
+                    android:layout_marginLeft="30dp"
+                    android:text="1小时50分"/>
+            </LinearLayout>
+            <Button
+                android:background="@drawable/btnrent"
+                android:layout_width="240dp"
+                android:text="续租"
+                android:textSize="24sp"
+                android:textColor="#fff"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

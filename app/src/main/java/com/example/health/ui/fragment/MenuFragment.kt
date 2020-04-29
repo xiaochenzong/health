@@ -21,7 +21,7 @@ class MenuFragment : Fragment() {
 
     var mView: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.activity_main, container, false)
+        mView = inflater.inflate(R.layout.fragment_menu, container, false)
         initView()
         return mView
     }

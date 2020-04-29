@@ -20,7 +20,7 @@ import com.example.health.R
 class ContextFragment : Fragment() {
     var mView: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.activity_main, container, false)
+        mView = inflater.inflate(R.layout.fragment_context, container, false)
         initView()
         return mView
     }
