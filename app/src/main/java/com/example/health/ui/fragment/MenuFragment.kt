@@ -65,22 +65,30 @@ class MenuFragment : Fragment() {
         mSharedPreferences = context?.getSharedPreferences(IatSettings.PREFER_NAME, Activity.MODE_PRIVATE)
         mToast = Toast.makeText(context, "", Toast.LENGTH_SHORT)
         initView()
-        initListener()
         return mView
     }
 
+    override fun onResume() {
+        super.onResume()
+        initListener()
+    }
+
     private fun initListener() {
-        llLeftBack.setOnClickListener {}
-        llRightBack.setOnClickListener {}
-        llWash.setOnClickListener { }
-        llBackMassage.setOnClickListener { }
-        llBackup.setOnClickListener { }
-        llBackDown.setOnClickListener { }
-        llReset.setOnClickListener { }
-        llLegMassage.setOnClickListener { }
-        llLegup.setOnClickListener { }
-        llLegDown.setOnClickListener { }
-        llStop.setOnClickListener { }
+
+        llLeftBack.setOnClickListener {
+            llLeftBack.isSelected = !llLeftBack.isSelected
+        }
+
+        llRightBack.setOnClickListener { llRightBack.isSelected = !llRightBack.isSelected }
+        llWash.setOnClickListener { llWash.isSelected = !llWash.isSelected }
+        llBackMassage.setOnClickListener { llBackMassage.isSelected = !llBackMassage.isSelected }
+        llBackup.setOnClickListener { llBackup.isSelected = !llBackup.isSelected }
+        llBackDown.setOnClickListener { llBackDown.isSelected = !llBackDown.isSelected }
+        llReset.setOnClickListener { llReset.isSelected = !llReset.isSelected }
+        llLegMassage.setOnClickListener { llLegMassage.isSelected = !llLegMassage.isSelected }
+        llLegup.setOnClickListener { llLegup.isSelected = !llLegup.isSelected }
+        llLegDown.setOnClickListener { llLegDown.isSelected = !llLegDown.isSelected }
+        llStop.setOnClickListener { llStop.isSelected = !llStop.isSelected }
         //正视图
         tvPositive.setOnClickListener { }
         //侧视图
