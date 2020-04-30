@@ -195,6 +195,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llStop"
                     style="@style/llaction"
                     android:layout_marginLeft="10dp">
 
@@ -240,6 +241,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tvPositive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -259,6 +261,7 @@
             </View>
 
             <TextView
+                android:id="@+id/tvSide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -268,6 +271,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llVoiceHealth"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginRight="40dp"
