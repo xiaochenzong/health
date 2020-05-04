@@ -8,16 +8,20 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.example.health.R
-import com.example.health.ui.fragment.ContextFragment
-import com.example.health.ui.fragment.MenuFragment
-import com.example.health.ui.fragment.ShoppingFragment
+import com.example.health.ui.fragment.*
+import com.example.health.ui.mode.ShopData
 import kotlinx.android.synthetic.main.activity_home.*
+import java.util.*
 
 class HomeActivity : AppCompatActivity() {
-    var mMenuFragment: MenuFragment? = null
-    var mShoppingFragment: ShoppingFragment? = null
+    var mMenuFragment: MenuFragment? = MenuFragment()
+    var mShoppingFragment: ShoppingFragment? = ShoppingFragment()
+    var mShoppingInfoFragment: ShoppingInfoFragment? = ShoppingInfoFragment()
+    var mShoppingResultFragment: ShoppingResultFragment? = ShoppingResultFragment()
     var mContextFragment: ContextFragment? = null
+    var mPurchaseFragment: PurchaseFragment? = null
     var mFragmentManager: FragmentManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +47,10 @@ class HomeActivity : AppCompatActivity() {
      * 展示Fragment
      */
     private fun showFragment(fragment: Fragment) {
+
         if (currentFragment !== fragment) {
             val transaction = mFragmentManager?.beginTransaction()
-            if (mContextFragment != null) {
+            if (currentFragment != null) {
                 transaction?.hide(currentFragment)
             }
             currentFragment = fragment
@@ -58,24 +63,78 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        ivMenu.setOnClickListener {
-            if (mMenuFragment == null) {
-                mMenuFragment = MenuFragment()
-            }
-            showFragment(mMenuFragment!!)
+        llMenu2.setOnClickListener {
+            showMenuFragment()
         }
-        ivContact.setOnClickListener {
+        llContact2.setOnClickListener {
+            ivContext2.visibility = View.VISIBLE
+            ivMenu2.visibility = View.GONE
+            ivShopping2.visibility = View.GONE
             if (mContextFragment == null) {
                 mContextFragment = ContextFragment()
             }
             showFragment(mContextFragment!!)
         }
-        ivShopping.setOnClickListener {
+        llShopping2.setOnClickListener {
+            ivContext2.visibility = View.GONE
+            ivMenu2.visibility = View.GONE
+            ivShopping2.visibility = View.VISIBLE
             if (mShoppingFragment == null) {
                 mShoppingFragment = ShoppingFragment()
             }
             showFragment(mShoppingFragment!!)
         }
+
+
+        if (mMenuFragment != null) {
+            mMenuFragment?.setRegisteredListener(object : MenuFragment.RegisteredListener {
+                override fun registered() {
+                    if (mPurchaseFragment == null) {
+                        mPurchaseFragment = PurchaseFragment()
+                    }
+                    showFragment(mPurchaseFragment!!)
+                }
+            })
+        }
+
+        if (mShoppingFragment != null) {
+            mShoppingFragment?.setBuyListener(object : ShoppingFragment.BuyListener {
+                override fun buyClick(data: ShopData) {
+                    if (mShoppingInfoFragment == null) {
+                        mShoppingInfoFragment = ShoppingInfoFragment()
+                    }
+                    showFragment(mShoppingInfoFragment!!)
+                }
+            })
+        }
+        if (mShoppingInfoFragment != null) {
+            mShoppingInfoFragment?.setSubmitListener(object : ShoppingInfoFragment.SubmitListener {
+                override fun submitClick() {
+                    if (mShoppingResultFragment == null) {
+                        mShoppingResultFragment = ShoppingResultFragment()
+                    }
+                    showFragment(mShoppingResultFragment!!)
+                }
+            })
+        }
+
+        if (mShoppingResultFragment != null) {
+            mShoppingResultFragment?.setBackHomeListener(object : ShoppingResultFragment.BackHomeListener {
+                override fun backClick() {
+                    showMenuFragment()
+                }
+            })
+        }
+    }
+
+    private fun showMenuFragment() {
+        ivContext2.visibility = View.GONE
+        ivMenu2.visibility = View.VISIBLE
+        ivShopping2.visibility = View.GONE
+        if (mMenuFragment == null) {
+            mMenuFragment = MenuFragment()
+        }
+        showFragment(mMenuFragment!!)
     }
 
     private fun requestPermissions() {

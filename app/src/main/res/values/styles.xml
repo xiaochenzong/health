@@ -14,6 +14,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -26,10 +27,41 @@
     </style>
 
 
-    <style name="center_h" parent="base">
+    <style name="center_h" parent="centerh">
         <item name="layout_constraintTop_toTopOf">parent</item>
+    </style>
+
+    <style name="centerh" parent="base">
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+
+    <style name="center_b" parent="centerh">
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="tvSubmit" parent="base">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="llSubmit" parent="center_b">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">260dp</item>
+        <item name="android:layout_marginBottom">50dp</item>
+        <item name="android:background">@drawable/btnrent</item>
+    </style>
+
+    <style name="center_v" parent="base">
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="center" parent="center_h">
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
 
     <style name="base">
@@ -37,21 +69,28 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="tvHeat" parent="base">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000</item>
+    </style>
+
     <style name="tvBmp" parent="tvHeat">
-        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
 
-    <style name="tvHeat" parent="base">
-        <item name="android:textSize">18sp</item>
+
+
+    <style name="tvInfo" parent="centerh">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">#000</item>
     </style>
 
     <style name="topleft" parent="base">
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
@@ -73,6 +112,12 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <style name="llLetf" parent="base">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
     <style name="action">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
@@ -84,21 +129,38 @@
     </style>
 
     <style name="bgaction">
-        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginRight">30dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+    </style>
+
+    <style name="etInfo">
+
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">220dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@drawable/info_etbg</item>
+        <item name="android:textColor">#AFAFAF</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
     </style>
 
     <style name="tvTime" parent="base">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">#000</item>
     </style>
 
     <style name="tvTime1" parent="base">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">#AFAFAF</item>
+    </style>
+
+    <style name="ivLeft" parent="base">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">18dp</item>
     </style>
 
     <style name="tvTime2" parent="tvTime1">
@@ -112,7 +174,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">12dp</item>
         <item name="android:background">@drawable/action_selector</item>
     </style>
 
@@ -121,9 +183,17 @@
     </style>
 
     <style name="action_tv" parent="base">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">#000</item>
         <item name="android:layout_marginLeft">10dp</item>
     </style>
+
+    <style name="tvY" parent="base">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FE453B</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
 
 </resources>

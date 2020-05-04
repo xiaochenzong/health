@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_write">
+
+    <RelativeLayout
+        android:id="@+id/rlTime"
+        style="@style/center"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ring"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="10"
+            android:textColor="#FFD278"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvStop"
+        style="@style/centerh"
+        android:layout_marginBottom="20dp"
+        android:text="是否需要紧急呼叫？"
+        android:textColor="#000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/rlTime"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        style="@style/centerh"
+        android:layout_marginTop="10dp"
+        android:text="检测到您按了紧急停止，"
+        android:textColor="#000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/tvStop"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        style="@style/centerh"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@id/rlTime"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/llCancel"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btnrent"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="否"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llConfirm"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/btnrent_red"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="紧急呼叫"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

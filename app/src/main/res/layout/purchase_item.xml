@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="130dp"
+    android:layout_height="100dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clPurchase"
+        style="@style/center"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:background="@drawable/purchase_selector"
+        tools:ignore="MissingConstraints">
+
+
+
+        <TextView
+            style="@style/center"
+            android:text="600"
+            android:id="@+id/tvPrice"
+            android:textColor="#FFD278"
+            android:textSize="20sp" />
+
+        <TextView
+            style="@style/base"
+            android:text="￥"
+            android:textColor="#FFD278"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintRight_toLeftOf="@id/tvPrice"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            android:textSize="12sp" />
+
+        <TextView
+            style="@style/centerh"
+            android:id="@+id/tvName"
+            app:layout_constraintBottom_toTopOf="@id/tvPrice"
+            android:text="24小时体验"
+            android:textColor="#000"
+            android:textSize="12sp" />
+        <TextView
+            style="@style/centerh"
+            android:text="超值体验价"
+            android:textColor="#AFAFAF"
+            app:layout_constraintTop_toBottomOf="@id/tvPrice"
+            android:textSize="10sp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/pricetips"
+        app:layout_constraintRight_toRightOf="@id/clPurchase"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

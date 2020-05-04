@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFF7E5">
+<android.support.constraint.ConstraintLayout
+    style="@style/bgaction"
+    android:background="@drawable/bg_write"
+    app:layout_constraintHorizontal_weight="3"
+    android:layout_marginTop="20dp"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/llResult2"
+    android:id="@+id/llResult"
+    tools:ignore="MissingConstraints">
+    <TextView
+        android:id="@+id/tvInfo1"
+        style="@style/tvInfo"
+        android:layout_marginTop="50dp"
+        android:text="提交成功！"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvInfo2"
+        style="@style/tvInfo"
+        android:layout_marginTop="2dp"
+        android:text="三个工作日内会有工作人员联系您，"
+        app:layout_constraintTop_toBottomOf="@id/tvInfo1" />
+    <TextView
+        android:id="@+id/tvInfo3"
+        android:layout_marginTop="2dp"
+        style="@style/tvInfo"
+        android:text="请耐心等待"
+        app:layout_constraintTop_toBottomOf="@id/tvInfo2" />
+
+    <LinearLayout
+        android:id="@+id/llBackHome"
+        style="@style/llSubmit">
+
+        <TextView
+            style="@style/tvSubmit"
+            android:text="返回首页"
+            />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        style="@style/bgaction"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintTop_toBottomOf="@id/llResult"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:id="@+id/llResult2"
+        tools:ignore="MissingConstraints">
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

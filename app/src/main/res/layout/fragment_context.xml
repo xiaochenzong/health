@@ -2,9 +2,11 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#FFF7E5"
     android:layout_height="match_parent">
 <ImageButton
     android:scaleType="fitXY"
+    android:background="#FFF7E5"
     android:src="@drawable/contextfragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF7E5">
+
+    <android.support.constraint.ConstraintLayout
+        style="@style/bgaction"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_write"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/tvInfo1"
+            style="@style/tvInfo"
+            android:layout_marginTop="30dp"
+            android:text="感谢您选择我们！"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvInfo2"
+            style="@style/tvInfo"
+            android:text="请留下您的联系方式，三个工作日内会有工作人员联系您"
+            app:layout_constraintTop_toBottomOf="@id/tvInfo1" />
+
+        <TextView
+            android:id="@+id/tv"
+            style="@style/center"
+            android:text="————————————————————————————————————"
+            android:textColor="#AFAFAF" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            style="@style/etInfo"
+            android:layout_marginBottom="40dp"
+            android:hint="电话"
+            app:layout_constraintBottom_toTopOf="@id/tv" />
+
+        <EditText
+            android:id="@+id/etName1"
+            style="@style/etInfo"
+            android:layout_marginBottom="10dp"
+            android:hint="姓名"
+            app:layout_constraintBottom_toTopOf="@id/etPhone" />
+
+        <TextView
+            android:id="@+id/tv1"
+            style="@style/base"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="联系人1"
+            android:textColor="#AFAFAF"
+            app:layout_constraintBottom_toTopOf="@id/etName1"
+            app:layout_constraintLeft_toLeftOf="@id/etName1" />
+
+        <TextView
+            android:id="@+id/tv2"
+            style="@style/base"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="40dp"
+            android:text="联系人2"
+            android:textColor="#AFAFAF"
+            app:layout_constraintLeft_toLeftOf="@id/etName1"
+            app:layout_constraintTop_toBottomOf="@id/tv" />
+
+        <EditText
+            android:id="@+id/etName2"
+            style="@style/etInfo"
+            android:layout_marginTop="5dp"
+            android:hint="姓名"
+            app:layout_constraintTop_toBottomOf="@id/tv2" />
+
+        <EditText
+            android:id="@+id/etPhone2"
+            style="@style/etInfo"
+            android:layout_marginTop="5dp"
+            android:hint="电话"
+            app:layout_constraintTop_toBottomOf="@id/etName2" />
+
+        <LinearLayout
+            android:id="@+id/llSubmit"
+            style="@style/llSubmit">
+
+            <TextView
+                style="@style/tvSubmit"
+                android:text="提交"
+                 />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

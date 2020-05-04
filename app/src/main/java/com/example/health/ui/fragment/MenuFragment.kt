@@ -5,7 +5,9 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Environment
+import android.os.SystemClock
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.example.health.R
 import com.example.health.ui.MyAppliction
@@ -23,7 +26,10 @@ import com.iflytek.cloud.ui.RecognizerDialogListener
 import com.iflytek.cloud.util.ResourceUtil
 import com.iflytek.speech.setting.IatSettings
 import com.iflytek.speech.util.JsonParser
+import com.iflytek.speech.util.SpeechResultUtils
 import kotlinx.android.synthetic.main.fragment_menu.*
+import kotlinx.android.synthetic.main.loading.view.*
+import kotlinx.android.synthetic.main.stop_dialog.view.*
 import kotlinx.android.synthetic.main.voice_dialog.view.*
 import java.util.*
 
@@ -53,7 +59,8 @@ class MenuFragment : Fragment() {
     private var llVoice: LinearLayout? = null
     private var ivVoice: ImageView? = null
     private var ivIdentify: ImageView? = null
-
+    private var tvTime: TextView? = null
+    private val time = 3000L
     var mView: View? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.fragment_menu, container, false)
@@ -71,41 +78,282 @@ class MenuFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         initListener()
+        tvPositive.isSelected = true
+    }
+
+    private lateinit var mStopDialog: Dialog
+    var timeCount = 10
+    val countDownTimer = object : CountDownTimer(1000 * 11, 1000) {
+        override fun onFinish() {
+            mStopDialog?.dismiss()
+        }
+
+        override fun onTick(p0: Long) {
+            tvTime?.text = "$timeCount"
+            timeCount--
+        }
+
     }
 
     private fun initListener() {
 
         llLeftBack.setOnClickListener {
-            llLeftBack.isSelected = !llLeftBack.isSelected
+            if (isRegistered()) {
+                leftBack()
+            } else {
+                mRegisteredListener?.registered()
+            }
         }
 
-        llRightBack.setOnClickListener { llRightBack.isSelected = !llRightBack.isSelected }
-        llWash.setOnClickListener { llWash.isSelected = !llWash.isSelected }
-        llBackMassage.setOnClickListener { llBackMassage.isSelected = !llBackMassage.isSelected }
-        llBackup.setOnClickListener { llBackup.isSelected = !llBackup.isSelected }
-        llBackDown.setOnClickListener { llBackDown.isSelected = !llBackDown.isSelected }
-        llReset.setOnClickListener { llReset.isSelected = !llReset.isSelected }
-        llLegMassage.setOnClickListener { llLegMassage.isSelected = !llLegMassage.isSelected }
-        llLegup.setOnClickListener { llLegup.isSelected = !llLegup.isSelected }
-        llLegDown.setOnClickListener { llLegDown.isSelected = !llLegDown.isSelected }
-        llStop.setOnClickListener { llStop.isSelected = !llStop.isSelected }
+        llRightBack.setOnClickListener {
+
+            if (isRegistered()) {
+                rightBack()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llWash.setOnClickListener {
+            if (isRegistered()) {
+                wash()
+            } else {
+                mRegisteredListener?.registered()
+            }
+
+        }
+        llBackMassage.setOnClickListener {
+
+            if (isRegistered()) {
+                backMassage()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llBackup.setOnClickListener {
+
+            if (isRegistered()) {
+                backUp()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llBackDown.setOnClickListener {
+
+            if (isRegistered()) {
+                backDown()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llReset.setOnClickListener {
+
+            if (isRegistered()) {
+                reset()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llLegMassage.setOnClickListener {
+
+            if (isRegistered()) {
+                legMassage()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llLegup.setOnClickListener {
+
+            if (isRegistered()) {
+                legUp()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+        llLegDown.setOnClickListener {
+
+            if (isRegistered()) {
+                legDown()
+            } else {
+                mRegisteredListener?.registered()
+            }
+        }
+
+        llStop.setOnClickListener {
+            /* llStop.isSelected = !llStop.isSelected
+             showLoading("紧急停止")
+             Thread(Runnable {
+                 SystemClock.sleep(time)
+                 MyAppliction.getHandler().post {
+                     dissDialog()
+                 }
+             }).start()*/
+
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.stop_dialog, null)
+            mStopDialog = Dialog(context, R.style.dialog)
+            tvTime = dialogView.tvTime
+            dialogView.llConfirm.setOnClickListener {
+                countDownTimer.cancel()
+                mStopDialog.dismiss()
+            }
+            dialogView.llCancel.setOnClickListener {
+                countDownTimer.cancel()
+                mStopDialog.dismiss()
+            }
+            mStopDialog.setCanceledOnTouchOutside(false)
+            mStopDialog.setContentView(dialogView)
+            val p = mStopDialog!!.window!!.attributes  //获取对话框当前的参数值// 获取屏幕宽、高用
+            p.width = resources.getDimensionPixelOffset(R.dimen.dialog_widthM)
+            p.height = resources.getDimensionPixelOffset(R.dimen.dialog_heightM)
+            mStopDialog!!.window!!.attributes = p
+            mStopDialog!!.show()
+            timeCount = 10
+            countDownTimer.start()
+
+        }
         //正视图
-        tvPositive.setOnClickListener { }
+        tvPositive.setOnClickListener {
+            tvPositive.isSelected = true
+            tvSide.isSelected = false
+        }
         //侧视图
-        tvSide.setOnClickListener { }
+        tvSide.setOnClickListener {
+            tvPositive.isSelected = false
+            tvSide.isSelected = true
+        }
         //智能语音
         llVoiceHealth.setOnClickListener {
-            mIatResults.clear()
-            // 设置参数
-            setParam()
-            // 不显示听写对话框
-            ret = mIat?.startListening(mRecognizerListener)!!
-            showDialog()
-            if (ret != ErrorCode.SUCCESS) {
-                showTip("听写失败,错误码：$ret,请点击网址https://www.xfyun.cn/document/error-code查询解决方案")
+            if (isRegistered()) {
+                mIatResults.clear()
+                // 设置参数
+                setParam()
+                // 不显示听写对话框
+                ret = mIat?.startListening(mRecognizerListener)!!
+                showDialog()
+                if (ret != ErrorCode.SUCCESS) {
+                    showTip("听写失败,错误码：$ret,请点击网址https://www.xfyun.cn/document/error-code查询解决方案")
+                } else {
+                    showTip(getString(R.string.text_begin))
+                }
             } else {
-                showTip(getString(R.string.text_begin))
+                mRegisteredListener?.registered()
             }
+        }
+    }
+
+    private fun leftBack() {
+        llLeftBack.isSelected = true
+        showLoading("左侧翻")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun rightBack() {
+        llRightBack.isSelected = true
+        showLoading("右侧翻")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun wash() {
+        llWash.isSelected = true
+        showLoading("手动冲洗")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun backMassage() {
+        llBackMassage.isSelected = true
+        showLoading("背部按摩")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun backUp() {
+        llBackup.isSelected = true
+        showLoading("起背")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun backDown() {
+        llBackDown.isSelected = true
+        showLoading("平背")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun reset() {
+        llReset.isSelected = true
+        showLoading("复位")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun legMassage() {
+        llLegMassage.isSelected = true
+        showLoading("腿部按摩")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun legUp() {
+        llLegup.isSelected = true
+        showLoading("抬腿")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun legDown() {
+        llLegDown.isSelected = true
+        showLoading("平腿")
+        Thread(Runnable {
+            SystemClock.sleep(time)
+            MyAppliction.getHandler().post {
+                dissDialog()
+            }
+        }).start()
+    }
+
+    private fun dissDialog() {
+        if (mLoading != null) {
+            ivLoading?.clearAnimation()
+            mLoading.dismiss()
         }
     }
 
@@ -155,11 +403,37 @@ class MenuFragment : Fragment() {
         mIat?.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences?.getString("iat_vadeos_preference", "1000"))
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
-        mIat?.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences?.getString("iat_punc_preference", "1"))
+        mIat?.setParameter(SpeechConstant.ASR_PTT, mSharedPreferences?.getString("iat_punc_preference", "0"))
 
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         mIat?.setParameter(SpeechConstant.AUDIO_FORMAT, "wav")
         mIat?.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory().toString() + "/msc/iat.wav")
+    }
+
+    private var ivLoading: ImageView? = null
+
+    private lateinit var mLoading: Dialog
+
+    private fun showLoading(action: String) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.loading, null)
+        val tvAction = dialogView.tvAction
+        tvAction.text = action
+        ivLoading = dialogView.ivLoading
+        var rotate = AnimationUtils.loadAnimation(context, R.anim.rotate_anim)
+        if (rotate != null) {
+            ivLoading?.startAnimation(rotate);
+        } else {
+            ivLoading?.setAnimation(rotate);
+            ivLoading?.startAnimation(rotate);
+        }
+        mLoading = Dialog(context, R.style.dialog)
+        mLoading.setContentView(dialogView)
+        mLoading.setCanceledOnTouchOutside(false)
+        val p = mLoading!!.window!!.attributes  //获取对话框当前的参数值// 获取屏幕宽、高用
+        p.width = resources.getDimensionPixelOffset(R.dimen.dialog_widthM)
+        p.height = resources.getDimensionPixelOffset(R.dimen.dialog_heightM)
+        mLoading!!.window!!.attributes = p
+        mLoading!!.show()
     }
 
     private fun showDialog() {
@@ -195,7 +469,7 @@ class MenuFragment : Fragment() {
 
         override fun onBeginOfSpeech() {
             // 此回调表示：sdk内部录音机已经准备好了，用户可以开始语音输入
-            showTip("开始说话")
+            //  showTip("开始说话")
             Log.d(TAG, "开始说话")
         }
 
@@ -210,7 +484,7 @@ class MenuFragment : Fragment() {
 
         override fun onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
-            showTip("结束说话")
+            //   showTip("结束说话")
             llVoice?.visibility = View.GONE
             ivIdentify?.visibility = View.VISIBLE
             var rotate = AnimationUtils.loadAnimation(context, R.anim.rotate_anim)
@@ -226,9 +500,44 @@ class MenuFragment : Fragment() {
         override fun onResult(results: RecognizerResult?, isLast: Boolean) {
             mDialog.dismiss()
             ivIdentify?.clearAnimation()
-            Log.d(TAG, "说话结果:${JsonParser.parseIatResult(results?.resultString)}")
             val text = JsonParser.parseIatResult(results?.resultString)
-            showTip(text)
+            Log.d(TAG, "说话结果:$text")
+            val speech = SpeechResultUtils.getSpeech(text)
+            showTip(speech)
+            Log.d("speech", speech)
+            when (speech) {
+                "左侧翻" -> {
+                    leftBack()
+                }
+                "右侧翻" -> {
+                    rightBack()
+                }
+                "手动冲洗" -> {
+                    wash()
+                }
+                "背部按摩" -> {
+                    backMassage()
+                }
+                "起背" -> {
+                    backUp()
+                }
+                "平背" -> {
+                    backDown()
+                }
+                "复位" -> {
+                    reset()
+                }
+                "腿部按摩" -> {
+                    legMassage()
+                }
+                "抬腿" -> {
+                    legUp()
+                }
+                "平腿" -> {
+                    legDown()
+                }
+            }
+
             if (isLast) {
                 //TODO 最后的结果
             }
@@ -238,7 +547,7 @@ class MenuFragment : Fragment() {
             if (mDialog != null && ivVoice != null) {
                 ivVoice?.setImageResource(R.drawable.voice_full)
             }
-            showTip("当前正在说话，音量大小：$volume")
+            //   showTip("当前正在说话，音量大小：$volume")
             Log.d(TAG, "正在说话：" + data.size)
         }
 
@@ -287,8 +596,9 @@ class MenuFragment : Fragment() {
 
     private fun showTip(str: String) {
         MyAppliction.getHandler().post {
-            mToast?.setText(str)
-            mToast?.show()
+            /* mToast?.setText(str)
+             mToast?.show()*/
+            Toast.makeText(context, str, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -300,5 +610,20 @@ class MenuFragment : Fragment() {
         tempBuffer.append(ResourceUtil.generateResourcePath(context, ResourceUtil.RESOURCE_TYPE.assets, "iat/sms_16k.jet"))
         //识别8k资源-使用8k的时候请解开注释
         return tempBuffer.toString()
+    }
+
+    private fun isRegistered(): Boolean {
+
+        return false
+    }
+
+    private var mRegisteredListener: RegisteredListener? = null
+
+    fun setRegisteredListener(listener: RegisteredListener) {
+        mRegisteredListener = listener
+    }
+
+    interface RegisteredListener {
+        fun registered()
     }
 }

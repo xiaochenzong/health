@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_loading">
+
+    <ImageView
+        android:id="@+id/ivLoading"
+        style="@style/center"
+        android:src="@drawable/waiting"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        style="@style/centerh"
+        android:layout_marginTop="10dp"
+        android:text="正在通讯中，请稍后"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/ivLoading"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tvAction"
+        style="@style/centerh"
+        android:layout_marginBottom="10dp"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/ivLoading"
+        tools:ignore="MissingConstraints" />
+</android.support.constraint.ConstraintLayout>

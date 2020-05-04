@@ -11,78 +11,10 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="#fff"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/frameLayout">
-
-        <ImageView
-            style="@style/letfIv"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/logo" />
-
-        <LinearLayout
-            style="@style/llmenu"
-            android:layout_marginTop="150dp">
-
-            <LinearLayout
-                style="@style/letfIv"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivMenu"
-                    style="@style/letfIv"
-                    android:src="@drawable/menu" />
-
-                <TextView
-                    style="@style/tvTime1"
-                    android:text="护理操作" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/llmenu"
-            android:layout_marginTop="260dp">
-
-            <LinearLayout
-                style="@style/letfIv"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivShopping"
-                    style="@style/letfIv"
-                    android:src="@drawable/shopping" />
-
-                <TextView
-                    style="@style/tvTime1"
-                    android:text="购买产品" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/llmenu"
-            android:layout_marginTop="380dp">
-
-            <LinearLayout
-                style="@style/letfIv"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/ivContact"
-                    style="@style/letfIv"
-                    android:src="@drawable/contact" />
-
-                <TextView
-                    style="@style/tvTime1"
-                    android:text="联系我们" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </RelativeLayout>
+        app:layout_constraintRight_toLeftOf="@id/frameLayout"
+        tools:layout_editor_absoluteY="0dp"></RelativeLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -90,11 +22,11 @@
         android:layout_height="match_parent"
         android:background="#FFF7E5"
         android:orientation="vertical"
-        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintHorizontal_weight="27"
         app:layout_constraintLeft_toRightOf="@id/rlLeft"
         app:layout_constraintRight_toLeftOf="@id/llRight"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints"></FrameLayout>
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp"></FrameLayout>
 
     <LinearLayout
         android:id="@+id/llRight"
@@ -103,7 +35,7 @@
         android:background="#FFD278"
         android:orientation="vertical"
         android:padding="20dp"
-        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintHorizontal_weight="10"
         app:layout_constraintLeft_toRightOf="@id/frameLayout"
         app:layout_constraintRight_toRightOf="parent">
 
@@ -140,7 +72,6 @@
                     style="@style/tvHeat"
                     android:layout_marginRight="4dp"
                     android:text="90"
-                    android:textSize="26sp"
                     app:layout_constraintBottom_toBottomOf="@id/tvBmp"
                     app:layout_constraintRight_toLeftOf="@id/tvBmp" />
 
@@ -167,20 +98,18 @@
 
                 <TextView
                     android:id="@+id/tvHeat"
-                    style="@style/tvHeat"
-                    android:layout_marginLeft="30dp"
+                    style="@style/tvBmp"
+                    android:layout_marginRight="40dp"
                     android:layout_marginBottom="10dp"
                     android:text="36.5"
-                    android:textSize="26sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    tools:ignore="MissingConstraints" />
 
                 <TextView
                     android:id="@+id/tvd"
                     style="@style/tvHeat"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="8dp"
                     android:text="º"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tvHeat"
                     app:layout_constraintLeft_toRightOf="@id/tvHeat" />
 
@@ -189,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="C"
                     android:textColor="#000"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tvHeat"
                     app:layout_constraintLeft_toRightOf="@id/tvd" />
 
@@ -233,6 +162,7 @@
                 style="@style/tvTime2"
                 android:layout_marginTop="0dp"
                 android:text="测量更新"
+                android:textSize="12sp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTime" />
 
@@ -240,7 +170,7 @@
             <TextView
                 android:id="@+id/tvMmh"
                 style="@style/tvBmp"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="60dp"
                 android:text="mmHg"
                 tools:ignore="MissingConstraints" />
 
@@ -248,7 +178,6 @@
                 style="@style/tvHeat"
                 android:layout_marginRight="4dp"
                 android:text="130/90"
-                android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="@id/tvMmh"
                 app:layout_constraintRight_toLeftOf="@id/tvMmh" />
 
@@ -273,6 +202,20 @@
                 app:layout_constraintBottom_toBottomOf="@id/ivHeartIV"
                 app:layout_constraintLeft_toRightOf="@id/ivHeartIV" />
 
+            <ImageView
+                android:id="@+id/ivHeartOff"
+                style="@style/center"
+                android:src="@drawable/heartoff"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:layout_marginTop="0dp"
+                android:text="心电图不可用"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivHeartOff" />
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -296,6 +239,20 @@
                 app:layout_constraintBottom_toBottomOf="@id/ivVoiceCall"
                 app:layout_constraintLeft_toRightOf="@id/ivVoiceCall" />
 
+            <ImageView
+                android:id="@+id/ivVoiceCallOff"
+                style="@style/center"
+                android:src="@drawable/videocalloff"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:layout_marginTop="0dp"
+                android:text="视频通话不可用"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivVoiceCallOff" />
+
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -305,22 +262,40 @@
             android:layout_weight="2"
             android:background="@drawable/bg_write">
 
+            <ImageView
+                android:id="@+id/ivCam"
+                style="@style/center_v"
+                android:layout_marginLeft="40dp"
+                android:src="@drawable/cam"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <ImageView
+                android:id="@+id/ivOff"
+                style="@style/center_v"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/switchoff"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="MissingConstraints" />
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/llMenu1"
-        style="@style/llmenu_right"
-        android:layout_marginTop="150dp"
-        tools:ignore="MissingConstraints">
+    <!-- <LinearLayout
+         android:id="@+id/llMenu1"
+         style="@style/llmenu_right"
+         android:layout_marginTop="150dp"
+         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pageiconleft" />
-    </LinearLayout>
-
+         <ImageView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@drawable/pageiconleft" />
+     </LinearLayout>
+ -->
 
     <LinearLayout
         android:id="@+id/llShopping1"
@@ -350,5 +325,124 @@
             android:src="@drawable/pageiconleft" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/llmenu1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1">
+
+        <ImageView
+            style="@style/llLetf"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llmenu1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/llShopping"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llLogo"
+        app:layout_constraintVertical_weight="1">
+
+        <LinearLayout
+            android:id="@+id/llMenu2"
+            style="@style/llLetf"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivMenu"
+                style="@style/letfIv"
+                android:src="@drawable/menu" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:text="护理操作" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivMenu2"
+            style="@style/ivLeft"
+            android:src="@drawable/pageiconleft" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llShopping"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/llContext"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llmenu1"
+        app:layout_constraintVertical_weight="1">
+
+        <LinearLayout
+            android:id="@+id/llShopping2"
+            style="@style/llLetf"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivShopping"
+                style="@style/letfIv"
+                android:src="@drawable/shopping" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:text="购买产品" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivShopping2"
+            style="@style/ivLeft"
+            android:src="@drawable/pageiconleft"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llContext"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="140dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llShopping"
+        app:layout_constraintVertical_weight="1">
+
+        <LinearLayout
+            android:id="@+id/llContact2"
+            style="@style/llLetf"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivContext"
+                style="@style/letfIv"
+                android:src="@drawable/contact" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:text="联系我们" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivContext2"
+            style="@style/ivLeft"
+            android:src="@drawable/pageiconleft"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
