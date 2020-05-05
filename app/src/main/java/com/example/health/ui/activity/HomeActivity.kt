@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.health.R
 import com.example.health.ui.fragment.*
+import com.example.health.ui.mode.PurchaseData
 import com.example.health.ui.mode.ShopData
 import kotlinx.android.synthetic.main.activity_home.*
 import java.util.*
@@ -21,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
     var mShoppingInfoFragment: ShoppingInfoFragment? = ShoppingInfoFragment()
     var mShoppingResultFragment: ShoppingResultFragment? = ShoppingResultFragment()
     var mContextFragment: ContextFragment? = null
-    var mPurchaseFragment: PurchaseFragment? = null
+    var mPurchaseFragment: PurchaseFragment? = PurchaseFragment()
     var mFragmentManager: FragmentManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +94,17 @@ class HomeActivity : AppCompatActivity() {
                         mPurchaseFragment = PurchaseFragment()
                     }
                     showFragment(mPurchaseFragment!!)
+                }
+            })
+        }
+
+        if (mPurchaseFragment != null) {
+            mPurchaseFragment?.setBuyListener(object : PurchaseFragment.BuyListener {
+                override fun buyClick(data: PurchaseData?) {
+                    if (mMenuFragment == null) {
+                        mMenuFragment = MenuFragment()
+                    }
+                    showFragment(mMenuFragment!!)
                 }
             })
         }

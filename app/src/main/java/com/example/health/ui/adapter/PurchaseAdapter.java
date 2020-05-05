@@ -48,18 +48,27 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         final PurchaseData data = mDataList.get(position);
         holder.goodsName.setText(data.name);
         holder.goodsPrice.setText(data.price);
         if (data.getISselect()) {
             holder.constraintLayout.setSelected(true);
+        }else {
+            holder.constraintLayout.setSelected(false);
         }
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                data.setISselect(true);
+                for (int i = 0; i < mDataList.size(); i++) {
+                    PurchaseData purchaseData = mDataList.get(i);
+                    if (i == position){
+                        purchaseData.setISselect(true);
+                    }else {
+                        purchaseData.setISselect(false);
+                    }
+                }
                 notifyDataSetChanged();
                 if (purchaseListener != null) {
                     purchaseListener.shoppingClick(data);
@@ -73,6 +82,9 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.ViewHo
         return mDataList.size();
     }
 
+    public ArrayList<PurchaseData> getPurchaseData() {
+        return mDataList;
+    }
     private PurchaseListener purchaseListener;
 
     public void setPurchaseListener(PurchaseListener listener) {
