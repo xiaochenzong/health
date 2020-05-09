@@ -3,6 +3,7 @@ package com.example.health.ui.fragment
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -20,6 +21,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.health.R
 import com.example.health.ui.MyAppliction
+import com.example.health.ui.mode.PurchaseInfo
+import com.google.gson.Gson
 import com.iflytek.cloud.*
 import com.iflytek.cloud.ui.RecognizerDialog
 import com.iflytek.cloud.ui.RecognizerDialogListener
@@ -77,8 +80,23 @@ class MenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        initPurchase()
         initListener()
         tvPositive.isSelected = true
+    }
+
+    private var purchaseData: String? = ""
+    private var time1: Long = 0
+
+    private fun initPurchase() {
+        var sp = context?.getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+        //第一个参数是键名，第二个是默认值
+        purchaseData = sp?.getString("purchaseDate", "")
+        if (!purchaseData.isNullOrEmpty()) {
+            val gson = Gson()
+            val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
+            time1 = purchaseInfo.validity
+        }
     }
 
     private lateinit var mStopDialog: Dialog

@@ -14,7 +14,6 @@ import com.example.health.ui.fragment.*
 import com.example.health.ui.mode.PurchaseData
 import com.example.health.ui.mode.ShopData
 import kotlinx.android.synthetic.main.activity_home.*
-import java.util.*
 
 class HomeActivity : AppCompatActivity() {
     var mMenuFragment: MenuFragment? = MenuFragment()
