@@ -1,8 +1,8 @@
-package com.example.health.ui.mode
+package com.example.health.mode
 
 /*
  *  @项目名：  health 
- *  @包名：    com.example.health.ui.mode
+ *  @包名：    com.example.health.mode
  *  @文件名:   PurchaseInfo
  *  @创建者:   ${小陈}
  *  @创建时间:  2020/5/7 16:05

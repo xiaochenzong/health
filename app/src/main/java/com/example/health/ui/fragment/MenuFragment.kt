@@ -21,7 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.health.R
 import com.example.health.ui.MyAppliction
-import com.example.health.ui.mode.PurchaseInfo
+import com.example.health.mode.PurchaseInfo
 import com.google.gson.Gson
 import com.iflytek.cloud.*
 import com.iflytek.cloud.ui.RecognizerDialog

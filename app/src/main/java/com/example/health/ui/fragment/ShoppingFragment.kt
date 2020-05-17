@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.health.R
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.example.health.ui.adapter.ShoppingAdapter
-import com.example.health.ui.mode.ShopData
+import com.example.health.adapter.ShoppingAdapter
+import com.example.health.mode.ShopData
 import kotlinx.android.synthetic.main.fragment_shopping.*
 import java.util.ArrayList
 import android.support.v7.widget.GridLayoutManager

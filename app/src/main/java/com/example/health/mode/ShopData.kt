@@ -1,4 +1,4 @@
-package com.example.health.ui.mode
+package com.example.health.mode
 
 class ShopData {
     lateinit var name: String

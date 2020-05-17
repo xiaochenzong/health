@@ -8,6 +8,8 @@ import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import com.example.health.R
+import com.example.health.utils.CommonUtils
+import com.example.health.utils.UiHelper
 import com.iflytek.cloud.SpeechConstant
 import com.iflytek.cloud.SpeechUtility
 import com.tencent.bugly.crashreport.CrashReport
@@ -63,7 +65,7 @@ class MyAppliction : Application() {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val outMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(outMetrics)
-        CommonUtils.mItemWidth = (outMetrics.widthPixels - UiHelper.dipToPx(this, 15)) / 3
+        CommonUtils.mItemWidth = (outMetrics.widthPixels - UiHelper.dipToPx(this, 15F)) / 3
         CommonUtils.mItemHeight = CommonUtils.mItemWidth
         CrashReport.initCrashReport(applicationContext, "9a51ae062a", true)
         //        BlockCanary.install(this, new AppContext()).start();

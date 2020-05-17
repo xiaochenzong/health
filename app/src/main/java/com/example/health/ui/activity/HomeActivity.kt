@@ -1,9 +1,12 @@
 package com.example.health.ui.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -11,9 +14,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.health.R
 import com.example.health.ui.fragment.*
-import com.example.health.ui.mode.PurchaseData
-import com.example.health.ui.mode.ShopData
+import com.example.health.mode.PurchaseData
+import com.example.health.mode.ShopData
+import com.example.health.utils.CommonUtils
+import com.example.health.utils.PermissionUtils
+import com.example.health.utils.ToastUtils
+import com.ucloudrtclib.sdkengine.UCloudRtcSdkEnv
 import kotlinx.android.synthetic.main.activity_home.*
+import java.io.*
+import java.lang.ref.WeakReference
 
 class HomeActivity : AppCompatActivity() {
     var mMenuFragment: MenuFragment? = MenuFragment()
@@ -23,12 +32,108 @@ class HomeActivity : AppCompatActivity() {
     var mContextFragment: ContextFragment? = null
     var mPurchaseFragment: PurchaseFragment? = PurchaseFragment()
     var mFragmentManager: FragmentManager? = null
+    private var mUserId = ""
+    private var mRoomid = ""
+    private var mAppid: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        initUCloudRtcSdk()
         requestPermissions()
         initView()
         initListener()
+    }
+
+    private fun initUCloudRtcSdk() {
+        val preferences = getSharedPreferences(getString(R.string.app_name),
+                Context.MODE_PRIVATE)
+        mAppid = preferences.getString(CommonUtils.APPID_KEY, CommonUtils.APP_ID)
+        UCloudRtcSdkEnv.setMixSupport(preferences.getBoolean(CommonUtils.SDK_SUPPORT_MIX, false))
+        UCloudRtcSdkEnv.setLoop(preferences.getBoolean(CommonUtils.SDK_IS_LOOP, true))
+        UCloudRtcSdkEnv.setMixFilePath(preferences.getString(CommonUtils.SDK_MIX_FILE_PATH, resources.getString(R.string.mix_file_path)))
+        UCloudRtcSdkEnv.setLogReport(true)
+        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        PermissionUtils.needsPermissions(this, permissions)
+        val thread = Thread(CopyMixFileTask(this))
+        thread.start()
+    }
+
+    internal class CopyMixFileTask(context: AppCompatActivity) : Runnable {
+
+        var context: WeakReference<AppCompatActivity>? = null
+
+        init {
+            this.context = WeakReference(context)
+        }
+
+        override fun run() {
+            if (context != null && context!!.get() != null) {
+                val storageFileDir = context!!.get()?.getResources()?.getString(R.string.mix_file_dir)
+                val storageFilePath = storageFileDir + File.separator + "dy.mp3"
+                val fileStorage = File(storageFilePath)
+                var needCopy = false
+                if (!fileStorage.exists()) {
+                    needCopy = true
+                }
+                val handler = Handler(Looper.getMainLooper())
+                if (needCopy) {
+                    val file = File(storageFileDir)
+                    if (!file.exists()) {//如果文件夹不存在，则创建新的文件夹
+                        file.mkdirs()
+                    }
+                    readInputStream(storageFilePath, context!!.get()?.getResources()?.openRawResource(R.raw.dy)!!)
+                    handler.post {
+                        if (UCloudRtcSdkEnv.getApplication() != null) {
+                            ToastUtils.shortShow(UCloudRtcSdkEnv.getApplication(), "default mix file copy success")
+                        }
+                    }
+                } else {
+                    //                    handler.post(new Runnable() {
+                    //                        @Override
+                    //                        public void run() {
+                    //                            ToastUtils.shortShow(UCloudRtcSdkEnv.getApplication(),"mix file already exist");
+                    //                        }
+                    //                    });
+                }
+                context!!.clear()
+                context = null
+            }
+        }
+
+        /**
+         * 读取输入流中的数据写入输出流
+         *
+         * @param storagePath 目标文件路径
+         * @param inputStream 输入流
+         */
+        fun readInputStream(storagePath: String, inputStream: InputStream) {
+            val file = File(storagePath)
+            try {
+                if (!file.exists()) {
+                    // 1.建立通道对象
+                    val fos = FileOutputStream(file)
+                    // 2.定义存储空间
+                    val buffer = ByteArray(1024)
+                    // 3.开始读文件
+                    var length = 0
+                    // 循环从输入流读取buffer字节
+                    // 将Buffer中的数据写到outputStream对象中
+                    while ((inputStream.read(buffer)) != -1) {
+                        length = inputStream.read(buffer)
+                        fos.write(buffer, 0, length)
+                    }
+                    fos.flush()// 刷新缓冲区
+                    // 4.关闭流
+                    fos.close()
+                    inputStream.close()
+                }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
     }
 
     private fun initView() {
@@ -66,6 +171,7 @@ class HomeActivity : AppCompatActivity() {
         llMenu2.setOnClickListener {
             showMenuFragment()
         }
+
         llContact2.setOnClickListener {
             ivContext2.visibility = View.VISIBLE
             ivMenu2.visibility = View.GONE
@@ -135,6 +241,9 @@ class HomeActivity : AppCompatActivity() {
                     showMenuFragment()
                 }
             })
+        }
+        ivVoiceCallOff.setOnClickListener {
+
         }
     }
 

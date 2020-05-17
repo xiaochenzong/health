@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SystemClock
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,23 +13,17 @@ import android.view.ViewGroup
 import com.example.health.R
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.example.health.ui.adapter.ShoppingAdapter
-import com.example.health.ui.mode.ShopData
-import kotlinx.android.synthetic.main.fragment_shopping.*
 import java.util.ArrayList
-import android.support.v7.widget.GridLayoutManager
 import android.util.Log
-import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.example.health.ui.adapter.PurchaseAdapter
-import com.example.health.ui.mode.PurchaseData
-import com.example.health.ui.mode.PurchaseInfo
+import com.example.health.adapter.PurchaseAdapter
+import com.example.health.mode.PurchaseData
+import com.example.health.mode.PurchaseInfo
 import com.google.gson.Gson
 import com.iflytek.speech.util.DatesUtils
 import kotlinx.android.synthetic.main.fragment_purchase.*
-import kotlinx.android.synthetic.main.loading.view.*
 import kotlinx.android.synthetic.main.qrcode_dialog.view.*
 
 
