@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.SystemClock
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.health.ui.adapter.PurchaseAdapter
 import com.example.health.ui.mode.PurchaseData
+import com.example.health.ui.mode.PurchaseInfo
+import com.google.gson.Gson
+import com.iflytek.speech.util.DatesUtils
 import kotlinx.android.synthetic.main.fragment_purchase.*
 import kotlinx.android.synthetic.main.loading.view.*
 import kotlinx.android.synthetic.main.qrcode_dialog.view.*
@@ -44,6 +48,7 @@ class PurchaseFragment : Fragment() {
     var mView: View? = null
     var tvTime: TextView? = null
     var countTime: Int = 10
+    private var time1: Long = 0
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.fragment_purchase, container, false)
         initView()
@@ -51,21 +56,30 @@ class PurchaseFragment : Fragment() {
     }
 
     private fun initData() {
+
+        getValidity()
+
         val purchaseList = ArrayList<PurchaseData>()
 
         val purchaseData1 = PurchaseData()
         purchaseData1.name = "1小时体验"
         purchaseData1.price = "20"
+        purchaseData1.packageTime = "1小时"
+        purchaseData1.time = 1 * 60 * 60 * 1000
         purchaseData1.iSselect = true
         purchaseList.add(purchaseData1)
 
         val purchaseData2 = PurchaseData()
         purchaseData2.name = "24小时体验"
+        purchaseData2.packageTime = "24小时"
+        purchaseData2.time = 24 * 60 * 60 * 1000
         purchaseData2.price = "60"
         purchaseList.add(purchaseData2)
 
         val purchaseData3 = PurchaseData()
         purchaseData3.name = "30天体验"
+        purchaseData3.packageTime = "30天"
+        purchaseData3.time = 30 * 24 * 60 * 60 * 1000
         purchaseData3.price = "600"
         purchaseList.add(purchaseData3)
 
@@ -95,6 +109,17 @@ class PurchaseFragment : Fragment() {
 
     }
 
+    private fun getValidity() {
+        val purchaseSP = context?.getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+        //第一个参数是键名，第二个是默认值
+        val purchaseData = purchaseSP?.getString("purchaseDate", "")
+        if (!purchaseData.isNullOrEmpty()) {
+            val gson = Gson()
+            val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
+            time1 = purchaseInfo.validity
+        }
+    }
+
     private fun showQrCodeDialog() {
         countTime = 10
         countDownTimer.start()
@@ -117,6 +142,39 @@ class PurchaseFragment : Fragment() {
 
     val countDownTimer = object : CountDownTimer(11 * 1000, 1000) {
         override fun onFinish() {
+            val phone1 = etPhone.text.toString().trim()
+            val name1 = etName1.text.toString().trim()
+            val address = etAddress.text.toString().trim()
+            val name2 = etName2.text.toString().trim()
+            val phone2 = etPhone2.text.toString().trim()
+            val purchaseInfo = PurchaseInfo()
+            purchaseInfo.address = address
+            purchaseInfo.emergencyName = name2
+            purchaseInfo.name = name1
+            purchaseInfo.emergencyPhone = phone2
+            purchaseInfo.phone = phone1
+            purchaseInfo.packageTime = purchase?.packageTime!!
+            val currentTimeMillis = System.currentTimeMillis()
+            val total = time1 - currentTimeMillis
+            if (total <= 0L) {
+                time1 = currentTimeMillis
+                purchaseInfo.totalTime = purchase?.time!!
+            } else {
+                purchaseInfo.totalTime = ((total / purchase?.time!!) + 1) * purchase?.time!! + purchase?.time!!
+            }
+            purchaseInfo.validity = time1 + purchase?.time!!
+            purchaseInfo.price = purchase?.price!!
+            Log.d("MenuFragment2", "purchaseInfo.validity:${purchaseInfo.validity}")
+            Log.d("MenuFragment2", "purchaseInfo.totalTime:${purchaseInfo.totalTime}")
+            val nowTime = DatesUtils.getNowTime("yyyy-MM-dd HH:mm:ss")
+            purchaseInfo.time = nowTime
+            val purchaseSP = context?.getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+            val gson = Gson()
+            val toJson = gson.toJson(purchaseInfo)
+            val edit = purchaseSP?.edit()
+            edit?.putString("purchaseDate", toJson)
+            edit?.commit()
+
             buyListener?.buyClick(purchase)
             qrDialog?.dismiss()
         }
@@ -133,13 +191,20 @@ class PurchaseFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("ShoppingFragment", "onResume")
+        Log.d("PurchaseFragment", "onResume")
         initData()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            getValidity()
+        }
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        Log.d("ShoppingFragment", "onAttach")
+        Log.d("PurchaseFragment", "onAttach")
 
     }
 

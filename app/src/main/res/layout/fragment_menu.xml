@@ -331,14 +331,48 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/llOverdue"
+            style="@style/center"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:visibility="gone">
+
+            <TextView
+                style="@style/tvTime"
+                android:text="智能设备未开通" />
+
+            <TextView
+                style="@style/tvTime1"
+                android:text="若已购买请联系客服人员开通设备" />
+
+            <LinearLayout
+                android:id="@+id/llPurchase1"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btnrent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="租用试用"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llValidity"
+            style="@style/center"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -350,6 +384,7 @@
 
                 <TextView
                     style="@style/tvTime"
+                    android:id="@+id/tvUseredTime"
                     android:layout_marginLeft="30dp"
                     android:text="00:10:01" />
             </LinearLayout>
@@ -364,7 +399,7 @@
                     android:text="租用套餐时长:" />
 
                 <TextView
-                    android:id="@+id/tvTime"
+                    android:id="@+id/tvTime2"
                     style="@style/tvTime1"
                     android:layout_marginLeft="20dp"
                     android:text="2小时" />
@@ -390,23 +425,25 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
-                android:gravity="center"
+                android:id="@+id/llPurchase2"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btnrent">
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btnrent"
+                android:gravity="center">
 
                 <TextView
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
                     android:text="续租"
                     android:textColor="#fff"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

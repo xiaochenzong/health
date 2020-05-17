@@ -28,6 +28,7 @@ import com.iflytek.cloud.ui.RecognizerDialog
 import com.iflytek.cloud.ui.RecognizerDialogListener
 import com.iflytek.cloud.util.ResourceUtil
 import com.iflytek.speech.setting.IatSettings
+import com.iflytek.speech.util.DatesUtils
 import com.iflytek.speech.util.JsonParser
 import com.iflytek.speech.util.SpeechResultUtils
 import kotlinx.android.synthetic.main.fragment_menu.*
@@ -80,6 +81,7 @@ class MenuFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Log.d("MenuFragment", "onResume")
         initPurchase()
         initListener()
         tvPositive.isSelected = true
@@ -87,15 +89,88 @@ class MenuFragment : Fragment() {
 
     private var purchaseData: String? = ""
     private var time1: Long = 0
+    var validityTimer: CountDownTimer? = null
+    var usedTimer: CountDownTimer? = null
+    private var purchaseSP: SharedPreferences? = null
 
     private fun initPurchase() {
-        var sp = context?.getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+        Log.d("MenuFragment", "initPurchase")
+        validityTimer?.cancel()
+        usedTimer?.cancel()
+        purchaseSP = context?.getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
         //第一个参数是键名，第二个是默认值
-        purchaseData = sp?.getString("purchaseDate", "")
+        purchaseData = purchaseSP?.getString("purchaseDate", "")
+        Log.d("MenuFragment", "purchaseDate:$purchaseData")
         if (!purchaseData.isNullOrEmpty()) {
             val gson = Gson()
             val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
             time1 = purchaseInfo.validity
+
+            val currentThreadTimeMillis = System.currentTimeMillis()
+            Log.d("MenuFragment", "time1:$time1...currentThreadTimeMillis:$currentThreadTimeMillis")
+            if (time1 - currentThreadTimeMillis > 60000) {
+                validityTotal = time1 - currentThreadTimeMillis
+                Log.d("MenuFragment", "validityTotal:$validityTotal")
+                validity = time1 - currentThreadTimeMillis
+
+                usedTime = Math.abs(purchaseInfo.totalTime - validity)
+
+                tvTime2.text = purchaseInfo.packageTime
+                tvTimeResidue.text = DatesUtils.millisToStringShort(validity)
+
+                usedTimer = object : CountDownTimer(validityTotal, 1000) {
+                    override fun onFinish() {
+                        llOverdue.visibility = View.VISIBLE
+                        llValidity.visibility = View.GONE
+                        val edit = purchaseSP?.edit()
+                        edit?.clear()
+                        edit?.commit()
+                    }
+
+                    override fun onTick(p0: Long) {
+                        Log.d("MenuFragment", "onTick:userTimer")
+                        usedTime = usedTime + 1000
+                        val countToTime = DatesUtils.msecToTime(usedTime)
+                        Log.d("MenuFragment", "usedTime:$usedTime...$countToTime")
+                        tvUseredTime.text = countToTime
+                    }
+                }
+
+                validityTimer = object : CountDownTimer(validityTotal, 1000 * 60) {
+                    override fun onFinish() {
+                        llOverdue.visibility = View.VISIBLE
+                        llValidity.visibility = View.GONE
+                        val edit = purchaseSP?.edit()
+                        edit?.clear()
+                        edit?.commit()
+                    }
+
+                    override fun onTick(p0: Long) {
+                        Log.d("MenuFragment", "onTick:validityTimer")
+                        val millisToStringShort = DatesUtils.millisToStringShort(validity)
+                        validity = validity - 60000
+                        tvTimeResidue.text = millisToStringShort
+                    }
+                }
+                validityTimer?.start()
+                usedTimer?.start()
+                llValidity.visibility = View.VISIBLE
+                llOverdue.visibility = View.GONE
+
+            } else {
+                llOverdue.visibility = View.VISIBLE
+                llValidity.visibility = View.GONE
+            }
+        } else {
+            llOverdue.visibility = View.VISIBLE
+            llValidity.visibility = View.GONE
+        }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            initPurchase()
         }
     }
 
@@ -113,8 +188,24 @@ class MenuFragment : Fragment() {
 
     }
 
+    private var validityTotal: Long = 0
+    private var usedTime: Long = 0
+    private var validity: Long = 0
     private fun initListener() {
-
+        llPurchase2.setOnClickListener {
+            val gson = Gson()
+            val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
+            purchaseInfo.validity = System.currentTimeMillis() + validity
+            val toJson = gson.toJson(purchaseInfo)
+            val edit = purchaseSP?.edit()
+            edit?.putString("purchaseDate", toJson)
+            edit?.commit()
+            validityTimer?.cancel()
+            mRegisteredListener?.registered()
+        }
+        llPurchase1.setOnClickListener {
+            mRegisteredListener?.registered()
+        }
         llLeftBack.setOnClickListener {
             if (isRegistered()) {
                 leftBack()
@@ -631,7 +722,9 @@ class MenuFragment : Fragment() {
     }
 
     private fun isRegistered(): Boolean {
-
+        if (validity > 60000) {
+            return true
+        }
         return false
     }
 

@@ -138,6 +138,10 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun replaceFragment(mPurchaseFragment: PurchaseFragment) {
+
+    }
+
     private fun showMenuFragment() {
         ivContext2.visibility = View.GONE
         ivMenu2.visibility = View.VISIBLE

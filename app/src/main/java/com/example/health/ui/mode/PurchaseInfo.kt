@@ -14,4 +14,10 @@ class PurchaseInfo {
     lateinit var time: String
     lateinit var phone: String
     var validity: Long = 0
+    var totalTime: Long = 0
+    lateinit var address: String
+    lateinit var packageTime: String
+    lateinit var emergencyName: String
+    lateinit var emergencyPhone: String
+
 }

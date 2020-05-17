@@ -73,16 +73,17 @@ public class DatesUtils {
 
     /**
      * 获取指定日期的时间戳
+     *
      * @param template
      * @param dateStr
      * @return
      */
     public static long getTimestamp(String template, String dateStr) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat(template,Locale.CHINA);
+        SimpleDateFormat df = new SimpleDateFormat(template, Locale.CHINA);
         ParsePosition pos = new ParsePosition(0);
-        Date date = df.parse(dateStr,pos);
+        Date date = df.parse(dateStr, pos);
         Calendar cal = Calendar.getInstance();
-        Log.d("time", "getTimestamp: "+cal);
+        Log.d("time", "getTimestamp: " + cal);
         cal.setTime(date);
         long timestamp = cal.getTimeInMillis();
         return timestamp;
@@ -196,13 +197,104 @@ public class DatesUtils {
 
     /**
      * 日期格式转换
-     * @param dateStrTemplate   yyyyMMdd
-     * @param dateStr  20190721
-     * @param template yyyy/MM/dd
+     *
+     * @param dateStrTemplate yyyyMMdd
+     * @param dateStr         20190721
+     * @param template        yyyy/MM/dd
      * @return
      */
     public static String formatConversion(String dateStrTemplate, String dateStr, String template) {
         final Date dateByDateStr = getDateByDateStr(dateStrTemplate, dateStr);
         return dateToStr(template, dateByDateStr);
     }
+
+    /**
+     * 毫秒值转时分
+     *
+     * @param l
+     * @return
+     */
+    public static String millisToStringShort(long l) {
+        StringBuffer sb = new StringBuffer();
+        long millis = 1;
+        long seconds = 1000 * millis;
+        long minutes = 60 * seconds;
+        long hours = 60 * minutes;
+        long days = 24 * hours;
+        if (l / days >= 1)
+            sb.append((int) (l / days) + "天");
+        if (l % days / hours >= 1)
+            sb.append((int) (l % days / hours) + "小时");
+        if (l % days % hours / minutes >= 1)
+            sb.append((int) (l % days % hours / minutes) + "分");
+        /*if(l%days%hours%minutes/seconds>=1)
+            sb.append((int)(l%days%hours%minutes/seconds)+"秒");
+        if(l%days%hours%minutes%seconds/millis>=1)
+            sb.append((int)(l%days%hours%minutes%seconds/millis)+"毫秒");*/
+        return sb.toString();
+    }
+
+    /**
+     * 将int类型数字转换成时分秒毫秒的格式数据
+     *
+     * @param time long类型的数据
+     * @return HH:mm:ss.SSS
+     * @author zero 2019/04/11
+     */
+    public static String msecToTime(Long time) {
+        String timeStr = null;
+        Long day = 0L;
+        Long hour = 0L;
+        Long minute = 0L;
+        Long second = 0L;
+        Long millisecond = 0L;
+        if (time <= 0)
+            return "00:00:00.00";
+        else {
+            second = time / 1000;
+            minute = second / 60;
+            hour = minute / 60;
+            millisecond = time % 1000;
+            if (second < 60) {
+                timeStr = "00:00:00:" + unitFormat(second);
+            } else if (minute < 60) {
+                second = second % 60;
+                timeStr = "00:00:" + unitFormat(minute) + ":" + unitFormat(second);
+            } else if (hour < 24) {// 数字>=3600 000的时候
+                hour = minute / 60;
+                minute = minute % 60;
+                second = second - hour * 3600 - minute * 60;
+                timeStr = "00:" + unitFormat(hour) + ":" + unitFormat(minute) + ":" + unitFormat(second);
+            } else {
+                day = hour / 24;
+                hour = minute / 60;
+                minute = minute % 60;
+                second = second - hour * 3600 - minute * 60;
+                timeStr = unitFormat(day) + ":" + unitFormat(hour) + ":" + unitFormat(minute) + ":" + unitFormat(second);
+            }
+
+        }
+        return timeStr;
+    }
+
+    public static String unitFormat(Long i) {// 时分秒的格式转换
+        String retStr = null;
+        if (i >= 0 && i < 10)
+            retStr = "0" + Long.toString(i);
+        else
+            retStr = "" + i;
+        return retStr;
+    }
+
+    public static String unitFormat2(Long i) {// 毫秒的格式转换
+        String retStr = null;
+        if (i >= 0 && i < 10)
+            retStr = "00" + Long.toString(i);
+        else if (i >= 10 && i < 100) {
+            retStr = "0" + Long.toString(i);
+        } else
+            retStr = "" + i;
+        return retStr;
+    }
+
 }
