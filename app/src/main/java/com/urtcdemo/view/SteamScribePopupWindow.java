@@ -1,4 +1,4 @@
-package com.example.health.ui.view;
+package com.urtcdemo.view;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.example.health.R;
-import com.example.health.adapter.SelectAdapter;
+import com.urtcdemo.adapter.SelectAdapter;
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkStreamInfo;
 
 

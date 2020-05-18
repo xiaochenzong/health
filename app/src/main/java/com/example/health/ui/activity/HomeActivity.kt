@@ -13,16 +13,19 @@ import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.health.R
-import com.example.health.ui.fragment.*
 import com.example.health.mode.PurchaseData
 import com.example.health.mode.ShopData
-import com.example.health.utils.CommonUtils
-import com.example.health.utils.PermissionUtils
-import com.example.health.utils.ToastUtils
+import com.example.health.ui.MyAppliction
+import com.example.health.ui.fragment.*
 import com.ucloudrtclib.sdkengine.UCloudRtcSdkEnv
+import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkMode
+import com.urtcdemo.utils.CommonUtils
+import com.urtcdemo.utils.PermissionUtils
+import com.urtcdemo.utils.ToastUtils
 import kotlinx.android.synthetic.main.activity_home.*
 import java.io.*
 import java.lang.ref.WeakReference
+import java.util.*
 
 class HomeActivity : AppCompatActivity() {
     var mMenuFragment: MenuFragment? = MenuFragment()
@@ -30,10 +33,12 @@ class HomeActivity : AppCompatActivity() {
     var mShoppingInfoFragment: ShoppingInfoFragment? = ShoppingInfoFragment()
     var mShoppingResultFragment: ShoppingResultFragment? = ShoppingResultFragment()
     var mContextFragment: ContextFragment? = null
+    var mVideoCallFragment: VideoCallFragment? = VideoCallFragment()
     var mPurchaseFragment: PurchaseFragment? = PurchaseFragment()
     var mFragmentManager: FragmentManager? = null
     private var mUserId = ""
-    private var mRoomid = ""
+    private var mRoomid = "13821686815"
+    private var mRoomToken = "testoken"
     private var mAppid: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,6 +196,18 @@ class HomeActivity : AppCompatActivity() {
             showFragment(mShoppingFragment!!)
         }
 
+        ivVoiceCallOff.setOnClickListener {
+            if (mVideoCallFragment == null) {
+                mVideoCallFragment = VideoCallFragment()
+            }
+            if (UCloudRtcSdkEnv.getSdkMode() == UCloudRtcSdkMode.UCLOUD_RTC_SDK_MODE_TRIVAL) {
+                mRoomToken = "testoken"
+            }
+            val autoGenUserId = "android_" + UUID.randomUUID().toString().replace("-", "")
+            mUserId = (if (MyAppliction.getUserId() != null) MyAppliction.getUserId() else autoGenUserId)!!
+            mVideoCallFragment?.setData(mUserId, mRoomid, mRoomToken, mAppid);
+            showFragment(mVideoCallFragment!!)
+        }
 
         if (mMenuFragment != null) {
             mMenuFragment?.setRegisteredListener(object : MenuFragment.RegisteredListener {
@@ -242,16 +259,15 @@ class HomeActivity : AppCompatActivity() {
                 }
             })
         }
-        ivVoiceCallOff.setOnClickListener {
 
-        }
+
     }
 
     private fun replaceFragment(mPurchaseFragment: PurchaseFragment) {
 
     }
 
-    private fun showMenuFragment() {
+    public fun showMenuFragment() {
         ivContext2.visibility = View.GONE
         ivMenu2.visibility = View.VISIBLE
         ivShopping2.visibility = View.GONE

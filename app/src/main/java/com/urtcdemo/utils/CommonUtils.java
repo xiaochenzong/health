@@ -1,4 +1,4 @@
-package com.example.health.utils;
+package com.urtcdemo.utils;
 
 import android.support.annotation.IntDef;
 

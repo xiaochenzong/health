@@ -8,8 +8,6 @@ import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import com.example.health.R
-import com.example.health.utils.CommonUtils
-import com.example.health.utils.UiHelper
 import com.iflytek.cloud.SpeechConstant
 import com.iflytek.cloud.SpeechUtility
 import com.tencent.bugly.crashreport.CrashReport
@@ -17,6 +15,8 @@ import com.ucloudrtclib.sdkengine.UCloudRtcSdkEngine
 import com.ucloudrtclib.sdkengine.UCloudRtcSdkEnv
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkLogLevel
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkMode
+import com.urtcdemo.utils.CommonUtils
+import com.urtcdemo.utils.UiHelper
 
 /*
  *  @项目名：  health 
@@ -86,6 +86,14 @@ class MyAppliction : Application() {
 
     companion object {
         private val mHandler: Handler = Handler()
+        private var sUserId: String? = "test001"
+        fun getUserId(): String? {
+            return sUserId
+        }
+
+        fun setUserId(userId: String?) {
+            sUserId = userId
+        }
 
         fun getHandler(): Handler {
             return mHandler

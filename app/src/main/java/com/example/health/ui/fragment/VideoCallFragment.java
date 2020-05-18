@@ -2,7 +2,6 @@ package com.example.health.ui.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -10,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,12 +32,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.health.R;
-import com.example.health.adapter.RemoteVideoAdapter;
-import com.example.health.ui.view.SteamScribePopupWindow;
-import com.example.health.ui.view.URTCVideoViewInfo;
-import com.example.health.utils.CommonUtils;
-import com.example.health.utils.ToastUtils;
-import com.example.health.utils.VideoListener;
+import com.example.health.ui.MyAppliction;
+import com.example.health.ui.activity.HomeActivity;
 import com.ucloudrtclib.sdkengine.UCloudRtcSdkEngine;
 import com.ucloudrtclib.sdkengine.UCloudRtcSdkEnv;
 import com.ucloudrtclib.sdkengine.define.UCloudRtcRenderView;
@@ -65,6 +61,14 @@ import com.ucloudrtclib.sdkengine.openinterface.UCloudRTCDataProvider;
 import com.ucloudrtclib.sdkengine.openinterface.UCloudRTCDataReceiver;
 import com.ucloudrtclib.sdkengine.openinterface.UCloudRTCFirstFrameRendered;
 import com.ucloudrtclib.sdkengine.openinterface.UCloudRTCScreenShot;
+import com.urtcdemo.adapter.RemoteVideoAdapter;
+import com.urtcdemo.utils.CommonUtils;
+import com.urtcdemo.utils.ToastUtils;
+import com.urtcdemo.utils.UiHelper;
+import com.urtcdemo.utils.VideoListener;
+import com.urtcdemo.view.CustomerClickListener;
+import com.urtcdemo.view.SteamScribePopupWindow;
+import com.urtcdemo.view.URTCVideoViewInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,7 +94,6 @@ import static com.example.health.ui.fragment.VideoCallFragment.BtnOp.OP_MIX_MANU
 import static com.ucloudrtclib.sdkengine.define.UCloudRtcSdkErrorCode.NET_ERR_CODE_OK;
 import static com.ucloudrtclib.sdkengine.define.UCloudRtcSdkMediaType.UCLOUD_RTC_SDK_MEDIA_TYPE_SCREEN;
 import static com.ucloudrtclib.sdkengine.define.UCloudRtcSdkMediaType.UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO;
-import static org.webrtc.ContextUtils.getApplicationContext;
 
 public class VideoCallFragment extends Fragment implements VideoListener {
 
@@ -98,7 +101,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     private static final String TAG = "RoomActivity";
 
     private String mUserid = "test001";
-    private String mRoomid = "urtc1";
+    private String mRoomid = "13821686815";
     private String mRoomToken = "test token";
     private String mAppid = "";
     private String mBucket = "urtc-test";
@@ -108,7 +111,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     private boolean mAtomOpStart = false;
     private boolean mIsPublished = false;
     private boolean mMixAddOrDel = true;
-
+    private Handler mHandler;
     TextView title = null;
     //    UCloudRtcSdkSurfaceVideoView localrenderview = null;
     UCloudRtcRenderView localrenderview = null;
@@ -164,7 +167,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     private boolean bigVolume = true;
     private FrameLayout testT, testB;
     private AppCompatSeekBar mSeekBar;
-
+    private HomeActivity mHomeActivity;
     /**
      * SDK视频录制对象
      */
@@ -568,7 +571,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     UCloudRtcSdkEventListener eventListener = new UCloudRtcSdkEventListener() {
         @Override
         public void onServerDisconnect() {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onServerDisconnect: ");
@@ -581,44 +584,45 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onJoinRoomResult(final int code, final String msg, String roomid) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
-                        ToastUtils.shortShow(getContext(), " 加入房间成功");
-//                        mOpBtn.setVisibility(View.VISIBLE);
+                        ToastUtils.shortShow(getContext(), "加入房间成功");
+//                      mOpBtn.setVisibility(View.VISIBLE);
                         startTimeShow();
                     } else {
-                        ToastUtils.shortShow(getContext(), " 加入房间失败 " +
+                        ToastUtils.shortShow(getContext(), "加入房间失败" +
                                 code + " errmsg " + msg);
+                        onMediaServerDisconnect();
 //                        Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
-//                        onMediaServerDisconnect();
 //                        startActivity(intent);
+                        mHomeActivity.showMenuFragment();
                     }
-
                 }
             });
         }
 
         @Override
         public void onLeaveRoomResult(final int code, final String msg, String roomid) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     ToastUtils.shortShow(getContext(), " 离开房间 " +
                             code + " errmsg " + msg);
-//                    Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
                     onMediaServerDisconnect();
                     System.gc();
+//                    Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
 //                    startActivity(intent);
 //                    finish();
+                    mHomeActivity.showMenuFragment();
                 }
             });
         }
 
         @Override
         public void onRejoiningRoom(String roomid) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "rejoining room");
@@ -630,7 +634,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRejoinRoomResult(String roomid) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     ToastUtils.shortShow(getContext(), "服务器重连成功");
@@ -641,7 +645,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onLocalPublish(final int code, final String msg, final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
@@ -692,7 +696,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onLocalUnPublish(final int code, final String msg, final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
@@ -720,7 +724,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         @Override
         public void onRemoteUserJoin(final String uid) {
 
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
 
                 @Override
                 public void run() {
@@ -732,7 +736,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRemoteUserLeave(final String uid, final int reason) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "remote user " + uid + "leave ,reason: " + reason);
@@ -745,7 +749,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRemotePublish(final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     //特殊情况下，譬如客户端在断网情况下离开房间，服务端可能还持有流，并没有超时，客户端就会收到自己的userid,
@@ -766,7 +770,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRemoteUnPublish(final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, " onRemoteUnPublish " + info.getMediaType() + " " + info.getUId());
@@ -785,7 +789,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onSubscribeResult(final int code, final String msg, final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
@@ -863,7 +867,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onUnSubscribeResult(int code, String msg, final UCloudRtcSdkStreamInfo info) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     ToastUtils.shortShow(getContext(), " 取消订阅用户 " +
@@ -880,7 +884,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         @Override
         public void onLocalStreamMuteRsp(final int code, String msg, final UCloudRtcSdkMediaType mediatype, final UCloudRtcSdkTrackType tracktype, final boolean mute) {
             Log.d(TAG, " code " + code + " mediatype " + mediatype + " ttype " + tracktype + " mute " + mute);
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
@@ -901,7 +905,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         @Override
         public void onRemoteStreamMuteRsp(final int code, String msg, final String uid, final UCloudRtcSdkMediaType mediatype, final UCloudRtcSdkTrackType tracktype, final boolean mute) {
             Log.d(TAG, " code " + code + " uid " + uid + " mediatype " + mediatype + " ttype " + tracktype + " mute " + mute);
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == 0) {
@@ -945,7 +949,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         @Override
         public void onRemoteTrackNotify(final String uid, final UCloudRtcSdkMediaType mediatype, final UCloudRtcSdkTrackType tracktype, final boolean mute) {
             Log.d(TAG, " uid " + uid + " mediatype " + mediatype + " ttype " + tracktype + " mute " + mute);
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (mediatype == UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO) {
@@ -969,7 +973,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onSendRTCStats(UCloudRtcSdkStats rtstats) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     // localprocess.setProgress(volume);
@@ -979,7 +983,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRemoteRTCStats(UCloudRtcSdkStats rtstats) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     //localprocess.setProgress(volume);
@@ -989,7 +993,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onLocalAudioLevel(final int volume) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     localprocess.setProgress(volume);
@@ -999,7 +1003,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRemoteAudioLevel(final String uid, int volume) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (mVideoAdapter != null) {
@@ -1011,15 +1015,16 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onKickoff(final int code) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     ToastUtils.longShow(getContext(), " 被踢出会议 code " +
                             code);
                     Log.d(TAG, " user kickoff reason " + code);
+                    onMediaServerDisconnect();
 //                    Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
-//                    onMediaServerDisconnect();
 //                    startActivity(intent);
+                    mHomeActivity.showMenuFragment();
 
                 }
             });
@@ -1032,7 +1037,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onError(final int error) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (error == UCloudRtcSdkErrorCode.NET_ERR_SDP_SWAP_FAIL.ordinal()) {
@@ -1044,7 +1049,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRecordStart(final int code, final String fileName) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     if (code == NET_ERR_CODE_OK.ordinal()) {
@@ -1064,7 +1069,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onRecordStop(final int code) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     ToastUtils.longShow(getContext(), "录制结束: " + (code == NET_ERR_CODE_OK.ordinal() ? "成功" : "失败: " + code));
@@ -1078,7 +1083,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onMixStart(final int code, final String msg, final String fileName) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "code : " + code + "msg: " + msg + "fileName: " + fileName);
@@ -1095,7 +1100,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onMixStop(final int code, final String msg, final String pushUrls) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onMixStop: " + code + "msg: " + msg + " pushUrl: " + pushUrls);
@@ -1109,7 +1114,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onAddStreams(final int code, final String msg) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onAddStreams: " + code + msg);
@@ -1119,7 +1124,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onDelStreams(final int code, final String msg) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onDelStreams: " + code + msg);
@@ -1129,7 +1134,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onMsgNotify(final int code, final String msg) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onMsgNotify: code: " + code + "msg: " + msg);
@@ -1139,7 +1144,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
         @Override
         public void onServerBroadCastMsg(final String uid, final String msg) {
-            runOnUiThread(new Runnable() {
+            mHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     Log.d(TAG, "onServerBroadCastMsg: uid: " + uid + "msg: " + msg);
@@ -1188,8 +1193,10 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_context, container, false);
-        initView();
+        mView = inflater.inflate(R.layout.fragment_videocall, container, false);
+        mHandler = MyAppliction.Companion.getHandler();
+        mHomeActivity = (HomeActivity) getActivity();
+       // initView();
         return mView;
     }
 
@@ -1246,14 +1253,14 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 //        mAppid = getIntent().getStringExtra("app_id");
 
         mHangup = mView.findViewById(R.id.button_call_disconnect);
-        mSwitchcam =  mView.findViewById(R.id.button_call_switch_camera);
-        mMuteMic =  mView.findViewById(R.id.button_call_toggle_mic);
-        mLoudSpkeader =  mView.findViewById(R.id.button_call_loundspeaker);
-        mMuteCam =  mView.findViewById(R.id.button_call_toggle_cam);
-        mStreamSelect =  mView.findViewById(R.id.stream_select);
-        mTextStream =  mView.findViewById(R.id.stream_text_view);
+        mSwitchcam = mView.findViewById(R.id.button_call_switch_camera);
+        mMuteMic = mView.findViewById(R.id.button_call_toggle_mic);
+        mLoudSpkeader = mView.findViewById(R.id.button_call_loundspeaker);
+        mMuteCam = mView.findViewById(R.id.button_call_toggle_cam);
+        mStreamSelect = mView.findViewById(R.id.stream_select);
+        mTextStream = mView.findViewById(R.id.stream_text_view);
         refreshStreamInfoText();
-        mOpBtn =  mView.findViewById(R.id.opBtn);
+        mOpBtn = mView.findViewById(R.id.opBtn);
         //user can chose the suitable type
 //        mOpBtn.setTag(OP_SEND_MSG);
 //        mOpBtn.setText("sendmsg");
@@ -1265,10 +1272,10 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 //        mOpBtn.setText("mix");
         mOpBtn.setTag(OP_MIX_MANUAL);
         mOpBtn.setText("mix_manual");
-        mAddDelBtn =  mView.findViewById(R.id.addDelBtn);
+        mAddDelBtn = mView.findViewById(R.id.addDelBtn);
         mAddDelBtn.setText("add_st");
         mAddDelBtn.setVisibility(View.VISIBLE);
-        mCheckBoxMirror =  mView.findViewById(R.id.cb_mirror);
+        mCheckBoxMirror = mView.findViewById(R.id.cb_mirror);
         mCheckBoxMirror.setChecked(UCloudRtcSdkEnv.isFrontCameraMirror());
         mCheckBoxMirror.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -1453,12 +1460,12 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         mSpinnerPopupWindowScribe.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-               //getWindow().getDecorView().setSystemUiVisibility(getSystemUiVisibility());
+                //getWindow().getDecorView().setSystemUiVisibility(getSystemUiVisibility());
             }
         });
         ((SteamScribePopupWindow) mSpinnerPopupWindowScribe).setmOnSubScribeListener(mOnSubscribeListener);
         //手动发布
-        mPublish = findViewById(R.id.button_call_pub);
+        mPublish = mView.findViewById(R.id.button_call_pub);
         mPublish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1520,9 +1527,9 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                         }
                     }
                     if (errorMessage.length() > 0)
-                        ToastUtils.shortShow(RoomActivity.this, errorMessage.toString());
+                        ToastUtils.shortShow(getContext(), errorMessage.toString());
                     else {
-                        ToastUtils.shortShow(RoomActivity.this, "发布");
+                        ToastUtils.shortShow(getContext(), "发布");
                     }
                 } else {
                     sdkEngine.unPublish(mPublishMediaType);
@@ -1565,17 +1572,17 @@ public class VideoCallFragment extends Fragment implements VideoListener {
             }
         });
 
-        title = findViewById(R.id.text_room);
+        title = mView.findViewById(R.id.text_room);
         title.setText("roomid: " + mRoomid);
         //title.setText("roomid: "+mRoomid+"\nuid: "+ mUserid);
 
-        localrenderview = findViewById(R.id.localview);
+        localrenderview = mView.findViewById(R.id.localview);
 //        localrenderview.init(true, new int[]{R.mipmap.video_open, R.mipmap.loudspeaker, R.mipmap.video_close, R.mipmap.loudspeaker_disable, R.drawable.publish_layer}, mOnRemoteOpTrigger, new int[]{R.id.remote_video, R.id.remote_audio});
 //        localrenderview.init(true);
         localrenderview.init();
         localrenderview.setZOrderMediaOverlay(false);
         localrenderview.setMirror(true);
-        localprocess = findViewById(R.id.processlocal);
+        localprocess = mView.findViewById(R.id.processlocal);
         isScreenCaptureSupport = UCloudRtcSdkEnv.isSuportScreenCapture();
         Log.d(TAG, " mCaptureMode " + mCaptureMode);
         switch (mCaptureMode) {
@@ -1803,7 +1810,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                 e.printStackTrace();
             }
             Log.d(TAG, "screen shoot : " + name);
-            ToastUtils.shortShow(RoomActivity.this, "screen shoot : " + name);
+            ToastUtils.shortShow(getContext(), "screen shoot : " + name);
         }
     };
 
@@ -1816,14 +1823,14 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d(TAG, "onRestart");
+//    @Override
+//    public void onRestart() {
+//        super.onRestart();
+    //       Log.d(TAG, "onRestart");
 //        boolean hasSwap = false;
 //        for (String key : mVideoAdapter.getStreamViews().keySet()) {
 //        for (String key : mVideoAdapter.getStreamViews().keySet()) {
@@ -1850,10 +1857,10 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 //            sdkEngine.startPreview(mLocalStreamInfo.getMediaType(), localrenderview,null,null);
 ////            sdkEngine.publish(UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO, true, true);
 //        }
-    }
+    //   }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         Log.d(TAG, "on Stop");
         if (mIsPublished) {
@@ -1892,7 +1899,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
             for (UCloudRtcSdkStreamInfo streamInfo : dataInfo) {
                 UCloudRtcSdkErrorCode result = sdkEngine.subscribe(streamInfo);
                 if (result.ordinal() != NET_ERR_CODE_OK.ordinal()) {
-                    ToastUtils.shortShow(RoomActivity.this, "UCLOUD_RTC_SDK_ERROR_CODE:" + result.getErrorCode());
+                    ToastUtils.shortShow(getContext(), "UCLOUD_RTC_SDK_ERROR_CODE:" + result.getErrorCode());
                 }
             }
             mSpinnerPopupWindowScribe.dismiss();
@@ -1907,9 +1914,9 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     }
 
     private void initButtonSize() {
-        int screenWidth = UiHelper.getScreenPixWidth(this);
-        int leftRightMargin = UiHelper.dipToPx(this, 30 * 2);
-        int gap = UiHelper.dipToPx(this, 8);
+        int screenWidth = UiHelper.getScreenPixWidth(getContext());
+        int leftRightMargin = UiHelper.dipToPx(getContext(), 30 * 2);
+        int gap = UiHelper.dipToPx(getContext(), 8);
         int buttonSize;
         if (mPublishMode == CommonUtils.AUTO_MODE) {
             buttonSize = (screenWidth - leftRightMargin - gap * 4) / 5;
@@ -1932,21 +1939,22 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 //        Intent service = new Intent(this, UCloudRtcForeGroundService.class);
 //        stopService(service);
+        initView();
         sdkEngine.controlAudio(true);
         sdkEngine.controlLocalVideo(true);
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         Log.d(TAG, "activity destory");
         super.onDestroy();
         localrenderview.release();
@@ -1989,19 +1997,20 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
     private void callHangUp() {
         int ret = sdkEngine.leaveChannel().ordinal();
-//        if (ret != NET_ERR_CODE_OK.ordinal()) {
-        Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
-        onMediaServerDisconnect();
-        startActivity(intent);
-        finish();
-//        }
+        if (ret != NET_ERR_CODE_OK.ordinal()) {
+
+            onMediaServerDisconnect();
+//        Intent intent = new Intent(RoomActivity.this, ConnectActivity.class);
+//        startActivity(intent);
+            mHomeActivity.showMenuFragment();
+        }
     }
 
     boolean mSwitchCam = false;
 
     private void switchCamera() {
         sdkEngine.switchCamera();
-        ToastUtils.shortShow(this, "切换摄像头");
+        ToastUtils.shortShow(getContext(), "切换摄像头");
 //        mSwitchcam.setImageResource(mSwitchCam ? R.mipmap.camera_switch_front :
 //                R.mipmap.camera_switch_end);
         mSwitchCam = !mSwitchCam;
@@ -2012,9 +2021,9 @@ public class VideoCallFragment extends Fragment implements VideoListener {
     private boolean onToggleMic() {
         sdkEngine.muteLocalMic(!mMuteMicBool);
         if (!mMuteMicBool) {
-            ToastUtils.shortShow(RoomActivity.this, "关闭麦克风");
+            ToastUtils.shortShow(getContext(), "关闭麦克风");
         } else {
-            ToastUtils.shortShow(RoomActivity.this, "打开麦克风");
+            ToastUtils.shortShow(getContext(), "打开麦克风");
         }
         return false;
     }
@@ -2034,9 +2043,9 @@ public class VideoCallFragment extends Fragment implements VideoListener {
             sdkEngine.muteLocalVideo(!mMuteCamBool, UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO);
         }
         if (!mMuteCamBool) {
-            ToastUtils.shortShow(RoomActivity.this, "关闭摄像头");
+            ToastUtils.shortShow(getContext(), "关闭摄像头");
         } else {
-            ToastUtils.shortShow(RoomActivity.this, "打开摄像头");
+            ToastUtils.shortShow(getContext(), "打开摄像头");
         }
         return false;
     }
@@ -2074,9 +2083,9 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
     private void onLoudSpeaker(boolean enable) {
         if (mSpeakerOn) {
-            ToastUtils.shortShow(RoomActivity.this, "关闭喇叭");
+            ToastUtils.shortShow(getContext(), "关闭喇叭");
         } else {
-            ToastUtils.shortShow(RoomActivity.this, "打开喇叭");
+            ToastUtils.shortShow(getContext(), "打开喇叭");
         }
         mSpeakerOn = !mSpeakerOn;
         sdkEngine.setSpeakerOn(enable);
@@ -2099,15 +2108,17 @@ public class VideoCallFragment extends Fragment implements VideoListener {
 
     //初始化视频
     public static void initRecordManager() {
-        // 设置拍摄视频缓存路径
+// 设置拍摄视频缓存路径
 //        File dcim = Environment
 //                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         URTCRecordManager.init("");
         Log.d(TAG, "initRecordManager: cache path:" + URTCRecordManager.getVideoCachePath());
     }
 
-    public void setData() {
-
+    public void setData(String userid, String roomid, String roomToken, String appid) {
+        mUserid = userid;
+        mRoomid = roomid;
+        mRoomToken = roomToken;
+        mAppid = appid;
     }
-
 }

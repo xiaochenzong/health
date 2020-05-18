@@ -1,4 +1,4 @@
-package com.example.health.adapter;
+package com.urtcdemo.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.example.health.R;
-import com.example.health.ui.view.URTCVideoViewInfo;
-import com.example.health.utils.CommonUtils;
+import com.urtcdemo.view.URTCVideoViewInfo;
+import com.urtcdemo.utils.CommonUtils;
 import com.ucloudrtclib.sdkengine.define.UCloudRtcRenderView;
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkStreamInfo;
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkSurfaceVideoView;
