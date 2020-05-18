@@ -65,7 +65,7 @@ class MyAppliction : Application() {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val outMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(outMetrics)
-        CommonUtils.mItemWidth = (outMetrics.widthPixels - UiHelper.dipToPx(this, 15F)) / 3
+        CommonUtils.mItemWidth = (outMetrics.widthPixels - UiHelper.dipToPx(this, 15F)) / 7
         CommonUtils.mItemHeight = CommonUtils.mItemWidth
         CrashReport.initCrashReport(applicationContext, "9a51ae062a", true)
         //        BlockCanary.install(this, new AppContext()).start();
@@ -86,7 +86,7 @@ class MyAppliction : Application() {
 
     companion object {
         private val mHandler: Handler = Handler()
-        private var sUserId: String? = "test001"
+        private var sUserId: String? = null
         fun getUserId(): String? {
             return sUserId
         }

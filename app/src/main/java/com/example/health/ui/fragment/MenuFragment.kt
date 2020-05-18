@@ -132,7 +132,7 @@ class MenuFragment : Fragment() {
                         usedTime = usedTime + 1000
                         val countToTime = DatesUtils.msecToTime(usedTime)
                         Log.d("MenuFragment", "usedTime:$usedTime...$countToTime")
-                        tvUseredTime.text = countToTime
+                        tvUseredTime?.text = countToTime
                     }
                 }
 

@@ -11,12 +11,15 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.example.health.R
 import com.example.health.mode.PurchaseData
+import com.example.health.mode.PurchaseInfo
 import com.example.health.mode.ShopData
 import com.example.health.ui.MyAppliction
 import com.example.health.ui.fragment.*
+import com.google.gson.Gson
 import com.ucloudrtclib.sdkengine.UCloudRtcSdkEnv
 import com.ucloudrtclib.sdkengine.define.UCloudRtcSdkMode
 import com.urtcdemo.utils.CommonUtils
@@ -145,10 +148,11 @@ class HomeActivity : AppCompatActivity() {
         if (mFragmentManager == null) {
             mFragmentManager = supportFragmentManager
         }
-        if (mMenuFragment == null) {
-            mMenuFragment = MenuFragment()
-        }
-        showFragment(mMenuFragment!!)
+        showMenuFragment()
+//        if (mMenuFragment == null) {
+//            mMenuFragment = MenuFragment()
+//        }
+//        showFragment(mMenuFragment!!)
     }
 
     private var currentFragment: Fragment? = null
@@ -197,16 +201,40 @@ class HomeActivity : AppCompatActivity() {
         }
 
         ivVoiceCallOff.setOnClickListener {
-            if (mVideoCallFragment == null) {
-                mVideoCallFragment = VideoCallFragment()
+            val purchaseSP = getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+            //第一个参数是键名，第二个是默认值
+            val purchaseData = purchaseSP?.getString("purchaseDate", "")
+            Log.d("MenuFragment", "purchaseDate:$purchaseData")
+            if (!purchaseData.isNullOrEmpty()) {
+                val gson = Gson()
+                val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
+                val time1 = purchaseInfo.validity
+
+                val currentThreadTimeMillis = System.currentTimeMillis()
+                Log.d("MenuFragment", "time1:$time1...currentThreadTimeMillis:$currentThreadTimeMillis")
+                if (time1 - currentThreadTimeMillis > 60000) {
+                    if (mVideoCallFragment == null) {
+                        mVideoCallFragment = VideoCallFragment()
+                    }
+                    if (UCloudRtcSdkEnv.getSdkMode() == UCloudRtcSdkMode.UCLOUD_RTC_SDK_MODE_TRIVAL) {
+                        mRoomToken = "testoken"
+                    }
+                    val autoGenUserId = "android_" + UUID.randomUUID().toString().replace("-", "")
+                    mUserId = (if (MyAppliction.getUserId() != null) MyAppliction.getUserId() else autoGenUserId)!!
+                    mVideoCallFragment?.setData(mUserId, mRoomid, mRoomToken, mAppid);
+                    showVideoCallFragment(mVideoCallFragment!!)
+                } else {
+                    if (mPurchaseFragment == null) {
+                        mPurchaseFragment = PurchaseFragment()
+                    }
+                    showFragment(mPurchaseFragment!!)
+                }
+            } else {
+                if (mPurchaseFragment == null) {
+                    mPurchaseFragment = PurchaseFragment()
+                }
+                showFragment(mPurchaseFragment!!)
             }
-            if (UCloudRtcSdkEnv.getSdkMode() == UCloudRtcSdkMode.UCLOUD_RTC_SDK_MODE_TRIVAL) {
-                mRoomToken = "testoken"
-            }
-            val autoGenUserId = "android_" + UUID.randomUUID().toString().replace("-", "")
-            mUserId = (if (MyAppliction.getUserId() != null) MyAppliction.getUserId() else autoGenUserId)!!
-            mVideoCallFragment?.setData(mUserId, mRoomid, mRoomToken, mAppid);
-            showFragment(mVideoCallFragment!!)
         }
 
         if (mMenuFragment != null) {
@@ -223,10 +251,11 @@ class HomeActivity : AppCompatActivity() {
         if (mPurchaseFragment != null) {
             mPurchaseFragment?.setBuyListener(object : PurchaseFragment.BuyListener {
                 override fun buyClick(data: PurchaseData?) {
-                    if (mMenuFragment == null) {
-                        mMenuFragment = MenuFragment()
-                    }
-                    showFragment(mMenuFragment!!)
+//                    if (mMenuFragment == null) {
+//                        mMenuFragment = MenuFragment()
+//                    }
+//                    showFragment(mMenuFragment!!)
+                    showMenuFragment()
                 }
             })
         }
@@ -263,11 +292,39 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    private fun showVideoCallFragment(mVideoCallFragment: VideoCallFragment) {
+        ivContext2.visibility = View.GONE
+        ivMenu2.visibility = View.GONE
+        ivShopping2.visibility = View.GONE
+        showFragment(mVideoCallFragment!!)
+    }
+
     private fun replaceFragment(mPurchaseFragment: PurchaseFragment) {
 
     }
 
     public fun showMenuFragment() {
+        val purchaseSP = getSharedPreferences("purchaseJson", Context.MODE_PRIVATE)
+        //第一个参数是键名，第二个是默认值
+        val purchaseData = purchaseSP?.getString("purchaseDate", "")
+        Log.d("MenuFragment", "purchaseDate:$purchaseData")
+        if (!purchaseData.isNullOrEmpty()) {
+            val gson = Gson()
+            val purchaseInfo = gson.fromJson(purchaseData, PurchaseInfo::class.java)
+            val time1 = purchaseInfo.validity
+            val currentThreadTimeMillis = System.currentTimeMillis()
+            Log.d("MenuFragment", "time1:$time1...currentThreadTimeMillis:$currentThreadTimeMillis")
+            if (time1 - currentThreadTimeMillis > 60000) {
+                ivVoiceCallOff.setImageResource(R.drawable.videocall)
+                tvVoiceCall.visibility = View.GONE
+            } else {
+                ivVoiceCallOff.setImageResource(R.drawable.videocalloff)
+                tvVoiceCall.visibility = View.VISIBLE
+            }
+        } else {
+            ivVoiceCallOff.setImageResource(R.drawable.videocalloff)
+            tvVoiceCall.visibility = View.VISIBLE
+        }
         ivContext2.visibility = View.GONE
         ivMenu2.visibility = View.VISIBLE
         ivShopping2.visibility = View.GONE

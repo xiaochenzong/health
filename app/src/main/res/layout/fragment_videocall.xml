@@ -53,6 +53,7 @@
                android:layout_marginTop="300dp"
                android:max="400"
                android:progress="100"
+               android:visibility="gone"
                android:id="@+id/seek_volume"/>
 
 
@@ -126,7 +127,8 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="start"
-                        android:textColor="@color/colorWhite"></TextView>
+                        android:textColor="@color/colorWhite"
+                        android:visibility="gone"></TextView>
 
                     <TextView
                         android:id="@+id/addDelBtn"
@@ -148,7 +150,8 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1.0"
                         android:text="镜像"
-                        android:textColor="@color/textcolor" />
+                        android:textColor="@color/textcolor"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -204,9 +207,7 @@
 
                 <ImageButton
                     android:id="@+id/button_call_pub"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="8dp"
+                    style="@style/ivBtn"
                     android:background="@drawable/publish_layer"
                     android:contentDescription="Disconnect Call"
                     android:src="@drawable/publish"
@@ -214,43 +215,34 @@
 
                 <ImageButton
                     android:id="@+id/button_call_disconnect"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="8dp"
+                    style="@style/ivBtn"
                     android:background="@mipmap/close_phone"
                     android:contentDescription="@string/disconnect_call" />
 
                 <ImageButton
                     android:id="@+id/button_call_toggle_cam"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="8dp"
+                    style="@style/ivBtn"
                     android:background="@drawable/publish_layer"
                     android:contentDescription="toggle cam"
                     android:src="@mipmap/video_open" />
 
                 <ImageButton
                     android:id="@+id/button_call_switch_camera"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="8dp"
+                    style="@style/ivBtn"
                     android:background="@drawable/publish_layer"
                     android:contentDescription="@string/switch_camera"
                     android:src="@mipmap/switch_camera" />
 
                 <ImageButton
                     android:id="@+id/button_call_toggle_mic"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
-                    android:layout_marginEnd="8dp"
+                    style="@style/ivBtn"
                     android:background="@drawable/publish_layer"
                     android:contentDescription="@string/toggle_mic"
                     android:src="@mipmap/microphone" />
 
                 <ImageButton
                     android:id="@+id/button_call_loundspeaker"
-                    android:layout_width="54dp"
-                    android:layout_height="54dp"
+                    style="@style/ivBtn"
                     android:background="@drawable/publish_layer"
                     android:contentDescription="loud speaker on/off"
                     android:src="@mipmap/loudspeaker" />

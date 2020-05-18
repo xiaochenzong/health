@@ -50,7 +50,7 @@
         <activity android:name=".ui.activity.MainActivity">
 
         </activity>
-        <activity android:name=".ui.activity.HomeActivity" android:theme="@style/MyAppStyle">
+        <activity android:name=".ui.activity.HomeActivity" android:theme="@style/MyAppStyle" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

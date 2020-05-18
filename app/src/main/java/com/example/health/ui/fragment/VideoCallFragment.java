@@ -1273,8 +1273,8 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         mOpBtn.setTag(OP_MIX_MANUAL);
         mOpBtn.setText("mix_manual");
         mAddDelBtn = mView.findViewById(R.id.addDelBtn);
-        mAddDelBtn.setText("add_st");
-        mAddDelBtn.setVisibility(View.VISIBLE);
+//        mAddDelBtn.setText("add_st");
+//        mAddDelBtn.setVisibility(View.VISIBLE);
         mCheckBoxMirror = mView.findViewById(R.id.cb_mirror);
         mCheckBoxMirror.setChecked(UCloudRtcSdkEnv.isFrontCameraMirror());
         mCheckBoxMirror.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1670,7 +1670,8 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         info.setToken(mRoomToken);
         info.setRoomId(mRoomid);
         info.setUId(mUserid);
-        Log.d(TAG, " roomtoken = " + mRoomToken);
+        Log.d(TAG, "mAppid:" + mAppid + "...mRoomToken:" + mRoomToken + "...mRoomid:" + mRoomid + "...mUserid:" + mUserid);
+
         //普通摄像头捕获方式，与扩展模式二选一
         UCloudRtcSdkEnv.setCaptureMode(
                 UCloudRtcSdkCaptureMode.UCLOUD_RTC_CAPTURE_MODE_LOCAL);
@@ -1926,11 +1927,11 @@ public class VideoCallFragment extends Fragment implements VideoListener {
             mPublish.setVisibility(View.VISIBLE);
             setButtonSize(mPublish, buttonSize);
         }
-        setButtonSize(mHangup, buttonSize);
-        setButtonSize(mLoudSpkeader, buttonSize);
-        setButtonSize(mSwitchcam, buttonSize);
-        setButtonSize(mMuteCam, buttonSize);
-        setButtonSize(mMuteMic, buttonSize);
+//        setButtonSize(mHangup, buttonSize);
+//        setButtonSize(mLoudSpkeader, buttonSize);
+//        setButtonSize(mSwitchcam, buttonSize);
+//        setButtonSize(mMuteCam, buttonSize);
+//        setButtonSize(mMuteMic, buttonSize);
     }
 
     private void setButtonSize(View button, int buttonSize) {
@@ -1946,6 +1947,14 @@ public class VideoCallFragment extends Fragment implements VideoListener {
         initView();
         sdkEngine.controlAudio(true);
         sdkEngine.controlLocalVideo(true);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            initView();
+        }
     }
 
     @Override
