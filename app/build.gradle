@@ -23,6 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -48,11 +53,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.github.markzhai:blockcanary-android:1.5.0'
 
-    //implementation (name: 'ucloudrtclib_1.7.5', ext: 'aar')
+    implementation (name: 'ucloudrtclib', ext: 'aar')
 //    implementation project(path: ':ucloud_business_sdk')
-    implementation 'com.ucloud:ucloudrtclib:1.7.6'
+//    implementation 'com.ucloud:ucloudrtclib:1.7.6'
 //    implementation project(':urtc-sdk-android')
-    //bugly
+//    bugly
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'

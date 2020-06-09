@@ -1365,7 +1365,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                             mAtomOpStart = true;
                             JSONArray jsonArray = new JSONArray();
                             jsonArray.put("");
-                            sdkEngine.stopMix(UCloudRtcSdkMixProfile.MIX_TYPE_BOTH, jsonArray);
+                            sdkEngine.stopMix(UCloudRtcSdkMixProfile.MIX_TYPE_BOTH, String.valueOf(jsonArray));
                         }
                         break;
                     case OP_MIX_MANUAL:
@@ -1398,7 +1398,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                             mAtomOpStart = true;
                             JSONArray jsonArray = new JSONArray();
                             jsonArray.put("");
-                            sdkEngine.stopMix(UCloudRtcSdkMixProfile.MIX_TYPE_BOTH, jsonArray);
+                            sdkEngine.stopMix(UCloudRtcSdkMixProfile.MIX_TYPE_BOTH, String.valueOf(jsonArray));
                         }
 //                    mVideoPlayer.start();
                         break;
@@ -1423,7 +1423,8 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    sdkEngine.addMixStream(streams);
+
+                    sdkEngine.addMixStream(String.valueOf(streams),UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO.ordinal());
                 } else {
                     mMixAddOrDel = true;
                     mAddDelBtn.setText("add_st");
@@ -1438,7 +1439,7 @@ public class VideoCallFragment extends Fragment implements VideoListener {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    sdkEngine.delMixStream(streams);
+                    sdkEngine.delMixStream(String.valueOf(streams),UCLOUD_RTC_SDK_MEDIA_TYPE_VIDEO.ordinal());
                 }
             }
         });
